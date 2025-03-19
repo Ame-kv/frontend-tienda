@@ -1,13 +1,13 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Registro from "./Registro"; // Asegúrate de que la ruta sea correcta
-import Login from "./Login"; // Asegúrate de que la ruta sea correcta
+import Registro from "./Registro"; 
+import Login from "./Login"; 
 
 function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/Login" element={<Login />} />
+        <Route path="/" element={<Login />} />
         <Route path="/registro" element={<Registro />} />
       </Routes>
     </Router>

@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import "./style.css"; // Asegúrate de que tienes el style.css vinculado
 
 function Registro() {
   const [nombre, setNombre] = useState("");
@@ -8,22 +9,20 @@ function Registro() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Simulación de registro exitoso
     setRegistroExitoso(true);
-    // Limpiar el formulario
     setNombre("");
     setEmail("");
     setPassword("");
   };
 
   return (
-    <div>
+    <div className="registro-container"> {/* Contenedor principal */}
       <h2>Registro</h2>
       {registroExitoso ? (
-        <p>Registro exitoso!</p>
+        <p className="success-message">Registro exitoso!</p>
       ) : (
         <form onSubmit={handleSubmit}>
-          <div>
+          <div className="input-container"> {/* Recuadro para Nombre */}
             <label>Nombre:</label>
             <input
               type="text"
@@ -31,7 +30,7 @@ function Registro() {
               onChange={(e) => setNombre(e.target.value)}
             />
           </div>
-          <div>
+          <div className="input-container"> {/* Recuadro para Email */}
             <label>Email:</label>
             <input
               type="email"
@@ -39,7 +38,7 @@ function Registro() {
               onChange={(e) => setEmail(e.target.value)}
             />
           </div>
-          <div>
+          <div className="input-container"> {/* Recuadro para Contraseña */}
             <label>Contraseña:</label>
             <input
               type="password"
