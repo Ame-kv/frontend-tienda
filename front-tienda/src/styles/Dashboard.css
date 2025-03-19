@@ -1,0 +1,96 @@
+/* Dashboard.css */
+
+body {
+    background-color: #E98A76; /* Color rosa claro para el fondo */
+  }
+  
+  .dashboard-container {
+    padding: 20px;
+  }
+  
+  .prendas-lista {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center; /* Centra las prendas horizontalmente */
+  }
+  
+  .prenda-card {
+    width: 200px;
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: center;
+    cursor: pointer;
+    border-radius: 10px; /* Añade bordes redondeados */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Añade sombra */
+    transition: transform 0.3s ease; /* Añade transición para hover */
+  }
+  
+  .prenda-card:hover {
+    transform: translateY(-5px); /* Eleva la tarjeta al hacer hover */
+  }
+  
+  .prenda-card img {
+    max-width: 100%;
+    height: auto;
+  }
+  
+  .prenda-detalles {
+    margin-top: 20px;
+    border: 1px solid #ddd;
+    padding: 20px;
+    text-align: center;
+    border-radius: 10px; /* Añade bordes redondeados */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Añade sombra */
+  }
+  
+  .prenda-detalles h2 {
+    text-align: center;
+  }
+  
+  .prenda-detalles img {
+    max-width: 300px;
+    height: auto;
+    margin-bottom: 10px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  
+  .tallas-selector {
+    margin-top: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .talla-button {
+    padding: 10px 15px;
+    margin-right: 5px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    cursor: pointer;
+    background-color: #f0f0f0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .talla-button.seleccionada {
+    background-color: #8B4513;
+    color: white;
+  }
+  
+  .talla-button input[type="radio"] {
+    display: none;
+  }
+  
+  .search-bar {
+    margin-bottom: 20px;
+  }
+  
+  .search-bar input {
+    border-radius: 20px;
+    padding: 10px 20px;
+    border: 1px solid #ddd;
+  }

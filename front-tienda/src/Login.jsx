@@ -11,7 +11,7 @@ function Login() {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (usuario === "admin" && contrasena === "12345") {
-      navigate("/registro");
+      navigate("/dashboard");
     } else {
       setError("Credenciales incorrectas");
     }

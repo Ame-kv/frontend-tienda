@@ -1,0 +1,36 @@
+/* Dashboard.css */
+
+.dashboard-container {
+    padding: 20px;
+  }
+  
+  .prendas-lista {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+  }
+  
+  .prenda-card {
+    width: 200px;
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: center;
+    cursor: pointer;
+  }
+  
+  .prenda-card img {
+    max-width: 100%;
+    height: auto;
+  }
+  
+  .prenda-detalles {
+    margin-top: 20px;
+    border: 1px solid #ddd;
+    padding: 20px;
+  }
+  
+  .prenda-detalles img {
+    max-width: 300px;
+    height: auto;
+    margin-bottom: 10px;
+  }
