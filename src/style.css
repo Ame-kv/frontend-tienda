@@ -3,7 +3,7 @@
 /* Estilos generales para la página */
 body {
   font-family: sans-serif;
-  background-color: #F99782; /* Color de fondo general */
+  background-color: #F99782; 
   margin: 0;
   padding: 0;
   display: flex;
@@ -13,38 +13,38 @@ body {
 }
 
 /* Contenedor principal del formulario de login */
-.login-container { /* Cambiado a una clase específica para el contenedor */
-  background-color: #fff; /* El fondo blanco del contenedor se mantiene */
-  padding: 30px; /* Aumentar el padding para más espacio */
-  border-radius: 12px; /* Bordes más redondeados */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Sombra más suave */
-  width: 350px; /* Ancho ligeramente mayor */
+.login-container { 
+  background-color: #fff; 
+  padding: 30px; 
+  border-radius: 12px; 
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); 
+  width: 350px; 
   text-align: center;
 }
 
 /* Contenedor para el logo */
 .logo-container {
   display: flex;
-  justify-content: center; /* Centra horizontalmente */
-  align-items: center; /* Centra verticalmente si es necesario */
-  margin-bottom: 30px; /* Espacio entre el logo y el título */
+  justify-content: center; 
+  align-items: center; 
+  margin-bottom: 30px; 
   width: 100%;
 }
 
 .logo {
-  max-width: 120px; /* Tamaño máximo del logo (ajusta según necesites) */
-  height: auto; /* Mantiene la proporción */
+  max-width: 120px; 
+  height: auto; 
 }
 
 h2 {
   color: #333;
   margin-bottom: 25px;
-  font-size: 1.8em; /* Tamaño de fuente ligeramente mayor */
+  font-size: 1.8em; 
 }
 
 /* Estilos para los contenedores de los campos */
-.login-container > div { /* Ajustado para apuntar al contenedor específico */
-  margin-bottom: 20px; /* Más espacio entre los campos */
+.login-container > div { 
+  margin-bottom: 20px; 
   text-align: left;
 }
 
@@ -53,16 +53,16 @@ label {
   margin-bottom: 8px;
   color: #555;
   font-size: 1em;
-  font-weight: bold; /* Etiquetas en negrita */
+  font-weight: bold; 
 }
 
 input[type="text"],
 input[type="password"],
 input[type="email"] {
-  width: calc(100% - 16px); /* Ajustar ancho considerando el padding */
+  width: calc(100% - 16px); 
   padding: 10px;
-  border: 1px solid #ccc; /* Borde ligeramente más claro */
-  border-radius: 6px; /* Bordes más redondeados */
+  border: 1px solid #ccc; 
+  border-radius: 6px; 
   box-sizing: border-box;
   font-size: 1em;
 }
@@ -71,17 +71,17 @@ input[type="text"]:focus,
 input[type="password"]:focus,
 input[type="email"]:focus {
   outline: none;
-  border-color: #E26B51; /* Color de foco igual al botón */
-  box-shadow: 0 0 8px rgba(226, 107, 81, 0.3); /* Sombra de foco sutil */
+  border-color: #E26B51; 
+  box-shadow: 0 0 8px rgba(226, 107, 81, 0.3); 
 }
 
 /* Estilos para los botones */
 button {
-  background-color: #E26B51; /* Color de fondo de los botones */
-  color: white;
-  padding: 12px 20px; /* Más padding para los botones */
+  background-color: #E26B51; 
+  color: #D15A40;
+  padding: 12px 20px; 
   border: none;
-  border-radius: 6px; /* Bordes más redondeados */
+  border-radius: 6px; 
   cursor: pointer;
   font-size: 1.1em;
   width: 100%;
@@ -90,18 +90,18 @@ button {
 }
 
 button:hover {
-  background-color: #D15A40; /* Ligeramente más oscuro al hacer hover */
-  transform: translateY(-2px); /* Ligeramente elevado al hacer hover */
+  background-color: #D15A40; 
+  transform: translateY(-2px); 
 }
 
 button:active {
-  transform: translateY(0); /* Vuelve a la posición normal al hacer clic */
+  transform: translateY(0); 
 }
 
 /* Estilos específicos para el botón de registro */
 button:last-child {
-  background-color: transparent; /* Fondo transparente */
-  color: #555;
+  background-color: transparent;
+  color : #555;
   border: 1px solid #ddd;
   margin-top: 15px;
 }
@@ -130,7 +130,7 @@ button:last-child:hover {
 
 /* Estilos para el contenedor principal de Registro */
 .registro-container {
-  background-color: #fff; /* El fondo blanco del contenedor se mantiene */
+  background-color: #fff; 
   padding: 30px;
   border-radius: 12px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
@@ -140,11 +140,11 @@ button:last-child:hover {
 
 /* Estilos para el recuadro blanco de los campos */
 .input-container {
-  background-color: #f7f7f7; /* Fondo gris claro para los campos */
+  background-color: #f7f7f7; 
   padding: 12px;
   border-radius: 6px;
   margin-bottom: 20px;
-  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1); /* Sombra interna sutil */
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1); 
 }
 
 .input-container label {
@@ -174,4 +174,4 @@ button:last-child:hover {
   box-shadow: 0 0 5px rgba(226, 107, 81, 0.5);
 }
 
-/* Reutilizando success-message */
+ 

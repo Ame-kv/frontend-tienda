@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Bar, Pie } from "react-chartjs-2";
 import { useNavigate } from "react-router-dom";
 import { 
   FiPieChart,
@@ -15,15 +16,35 @@ import {
   FiGrid,
   FiLayers
 } from "react-icons/fi";
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  ArcElement,
+  Title,
+  Tooltip,
+  Legend
+} from "chart.js";
 import RegularTables from "./RegularTables";
 import DataSettings from "./DataSettings";
 import "../styles/Admin.css";
-import Graficas from "./Graficas";
 import Perfil from "./Perfil";
+
+// Registrar componentes necesarios de Chart.js
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  ArcElement,
+  Title,
+  Tooltip,
+  Legend
+);
 
 const Admin = () => {
   const navigate = useNavigate();
-  const [activeView, setActiveView] = useState("dashboard"); // 'dashboard', 'elements', 'components', 'regular-tables'
+  const [activeView, setActiveView] = useState("dashboard");
 
   // Datos para las tarjetas de estadísticas
   const stats = {
@@ -31,6 +52,60 @@ const Admin = () => {
     newOrders: { value: "324", label: "Pedidos Nuevos", icon: <FiShoppingBag /> },
     customers: { value: "1,287", label: "Clientes", icon: <FiUsers /> },
     satisfaction: { value: "4.8", label: "Satisfacción", icon: <FiStar /> },
+  };
+
+  // Datos para las gráficas
+  const ventasPorMes = {
+    labels: ["Ene", "Feb", "Mar", "Abr", "May", "Jun"],
+    datasets: [
+      {
+        label: "Ventas 2023",
+        data: [4500, 5200, 4800, 6100, 7300, 8200],
+        backgroundColor: "rgba(93, 120, 255, 0.7)",
+        borderColor: "rgba(93, 120, 255, 1)",
+        borderWidth: 1
+      }
+    ]
+  };
+
+  const productosMasVendidos = {
+    labels: ["Camisetas", "Pantalones", "Zapatos", "Accesorios", "Vestidos"],
+    datasets: [
+      {
+        data: [35, 25, 20, 15, 5],
+        backgroundColor: [
+          "rgba(93, 120, 255, 0.7)",
+          "rgba(108, 95, 252, 0.7)",
+          "rgba(76, 201, 240, 0.7)",
+          "rgba(248, 150, 30, 0.7)",
+          "rgba(247, 37, 133, 0.7)"
+        ],
+        borderColor: [
+          "rgba(93, 120, 255, 1)",
+          "rgba(108, 95, 252, 1)",
+          "rgba(76, 201, 240, 1)",
+          "rgba(248, 150, 30, 1)",
+          "rgba(247, 37, 133, 1)"
+        ],
+        borderWidth: 1
+      }
+    ]
+  };
+
+  const opciones = {
+    responsive: true,
+    plugins: {
+      legend: {
+        position: "top"
+      },
+      title: {
+        display: true,
+        text: "",
+        font: {
+          size: 16
+        }
+      }
+    }
   };
 
   const handleBackToDashboard = () => {
@@ -58,7 +133,7 @@ const Admin = () => {
                 onClick={() => handleMenuClick('dashboard')}
               >
                 <FiCheckSquare className="cf-menu-icon" />
-                <span className="cf-menu-text">Datos</span>
+                <span className="cf-menu-text">Dashboard</span>
               </li>
             </ul>
           </div>
@@ -74,13 +149,6 @@ const Admin = () => {
                 <span className="cf-menu-text">Ajustes de datos</span>
               </li>
               <li 
-                className={`cf-menu-item ${activeView === 'components' ? 'active' : ''}`}
-                onClick={() => handleMenuClick('components')}
-              >
-                <FiLayers className="cf-menu-icon" />
-                <span className="cf-menu-text">Graficas</span>
-              </li>
-              <li 
                 className={`cf-menu-item ${activeView === 'regular-tables' ? 'active' : ''}`}
                 onClick={() => handleMenuClick('regular-tables')}
               >
@@ -93,13 +161,13 @@ const Admin = () => {
           <div className="cf-menu-section">
             <h3 className="cf-menu-category">---</h3>
             <ul>
-            <li 
-  className={`cf-menu-item ${activeView === 'perfil' ? 'active' : ''}`}
-  onClick={() => handleMenuClick('perfil')}
->
-  <FiCheckSquare className="cf-menu-icon" />
-  <span className="cf-menu-text">Perfil</span>
-</li>
+              <li 
+                className={`cf-menu-item ${activeView === 'perfil' ? 'active' : ''}`}
+                onClick={() => handleMenuClick('perfil')}
+              >
+                <FiCheckSquare className="cf-menu-icon" />
+                <span className="cf-menu-text">Perfil</span>
+              </li>
             </ul>
           </div>
         </div>
@@ -111,17 +179,16 @@ const Admin = () => {
         <div className="cf-header">
           <div>
             <h2>
-              {activeView === 'dashboard' && 'Resumen de Rendimiento'}
+              {activeView === 'dashboard' && 'Dashboard'}
               {activeView === 'elements' && 'Ajustes de Datos'}
-              {activeView === 'components' && 'Components'}
-              {activeView === 'regular-tables' && 'Regular Tables'}
+              {activeView === 'regular-tables' && 'Tablas'}
+              {activeView === 'perfil' && 'Perfil'}
             </h2>
             <p className="cf-subtitle">
-              {activeView === 'dashboard' && 'Datos actualizados en tiempo real'}
+              {activeView === 'dashboard' && 'Resumen completo del rendimiento'}
               {activeView === 'elements' && 'Editar y gestionar productos'}
-              {activeView === 'regular-tables' && 'Tablas y gráficos de datos'}
-              {activeView === 'components' && <Graficas />}
-              {activeView === 'perfil' && <Perfil />}
+              {activeView === 'regular-tables' && 'Tablas y datos detallados'}
+              {activeView === 'perfil' && 'Configuración de tu perfil'}
             </p>
           </div>
           <button className="cf-back-button" onClick={handleBackToDashboard}>
@@ -143,12 +210,32 @@ const Admin = () => {
                 </div>
               ))}
             </div>
+
+            {/* Sección de gráficas en el dashboard */}
+            <div className="cf-graphs-section">
+              <h3 className="cf-section-title">Estadísticas de Ventas</h3>
+              <div className="cf-graphs-grid">
+                <div className="cf-graph-container">
+                  <h4>Ventas Mensuales</h4>
+                  <div className="cf-graph-wrapper">
+                    <Bar data={ventasPorMes} options={opciones} />
+                  </div>
+                </div>
+                
+                <div className="cf-graph-container">
+                  <h4>Productos Más Vendidos</h4>
+                  <div className="cf-graph-wrapper">
+                    <Pie data={productosMasVendidos} options={opciones} />
+                  </div>
+                </div>
+              </div>
+            </div>
           </>
         )}
 
         {activeView === 'elements' && <DataSettings />}
         {activeView === 'regular-tables' && <RegularTables />}
-        
+        {activeView === 'perfil' && <Perfil />}
       </div>
     </div>
   );

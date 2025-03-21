@@ -1,6 +1,7 @@
 /* Regular Tables View */
 .regular-tables-view {
   padding: 20px;
+  color: black; /* Establecer el color de texto a negro */
 }
 
 .rt-content {
@@ -14,6 +15,7 @@
   border-radius: 10px;
   padding: 20px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  color: black; /* Establecer el color de texto a negro */
 }
 
 .rt-table-header {
@@ -25,13 +27,13 @@
 
 .rt-table-header h3 {
   margin: 0;
-  color: var(--dark);
+  color: black; /* Forzar el color de texto a negro */
   font-size: 1.2rem;
 }
 
 .rt-badge {
   background: var(--primary-light);
-  color: var(--primary);
+  color: var(--primary); /* Dejado con su color primario */
   padding: 4px 10px;
   border-radius: 20px;
   font-size: 0.8rem;
@@ -41,13 +43,14 @@
 .rt-table {
   width: 100%;
   border-collapse: collapse;
+  color: black; /* Establecer el color de texto a negro */
 }
 
 .rt-table th {
   text-align: left;
   padding: 12px 15px;
   background: var(--light);
-  color: var(--dark-gray);
+  color: black; /* Forzar el color de texto a negro */
   font-weight: 600;
   font-size: 0.8rem;
   text-transform: uppercase;
@@ -56,7 +59,7 @@
 .rt-table td {
   padding: 15px;
   border-bottom: 1px solid var(--light-gray);
-  color: var(--dark);
+  color: black; /* Forzar el color de texto a negro */
 }
 
 .stock-badge {
@@ -65,12 +68,12 @@
   font-size: 0.8rem;
   font-weight: 500;
   background-color: rgba(40, 167, 69, 0.1);
-  color: #28a745;
+  color: #28a745; /* Dejado con su color primario */
 }
 
 .stock-badge.low {
   background-color: rgba(220, 53, 69, 0.1);
-  color: #dc3545;
+  color: #dc3545; /* Dejado con su color primario */
 }
 
 .status-badge {
@@ -78,26 +81,27 @@
   border-radius: 20px;
   font-size: 0.8rem;
   font-weight: 500;
+  color: black; /* Establecer el color de texto a negro */
 }
 
 .status-badge.completado {
   background-color: rgba(40, 167, 69, 0.1);
-  color: #28a745;
+  color: #28a745; /* Dejado con su color primario */
 }
 
 .status-badge.en-proceso {
   background-color: rgba(255, 193, 7, 0.1);
-  color: #ffc107;
+  color: #ffc107; /* Dejado con su color primario */
 }
 
 .status-badge.enviado {
   background-color: rgba(13, 110, 253, 0.1);
-  color: #0d6efd;
+  color: #0d6efd; /* Dejado con su color primario */
 }
 
 .status-badge.pendiente {
   background-color: rgba(108, 117, 125, 0.1);
-  color: #6c757d;
+  color: #6c757d; /* Dejado con su color primario */
 }
 
 .table-responsive {
@@ -106,270 +110,268 @@
 
 /* Responsive */
 @media (max-width: 768px) {
-  .rt-table th, 
+  .rt-table th,
   .rt-table td {
     padding: 10px 8px;
     font-size: 0.9rem;
   }
 }
 
-
-
-
 /*---------*/
-
 
 /* Elements View */
 .elements-view {
-    padding: 20px;
-  }
-  
+  padding: 20px;
+  color: black; /* Establecer el color de texto a negro */
+}
+
+.elements-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.search-box {
+  display: flex;
+  align-items: center;
+  background: #f5f7fa;
+  border-radius: 6px;
+  padding: 8px 15px;
+  width: 300px;
+  color: black; /* Establecer el color de texto a negro */
+}
+
+.search-box input {
+  border: none;
+  background: transparent;
+  margin-left: 10px;
+  width: 100%;
+  outline: none;
+  color: black; /* Forzar el color de texto a negro */
+}
+
+.search-icon {
+  color: black; /* Forzar el color de texto a negro */
+}
+
+.add-button {
+  background: #6c5ffc;
+  color: black; /* Forzar el color de texto a negro */
+  border: none;
+  padding: 10px 15px;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.add-button:hover {
+  background: #5a4fcf;
+}
+
+.elements-table-container {
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  overflow: hidden;
+  color: black; /* Establecer el color de texto a negro */
+}
+
+.elements-table {
+  width: 100%;
+  border-collapse: collapse;
+  color: black; /* Establecer el color de texto a negro */
+}
+
+.elements-table th {
+  background: #f8f9fa;
+  padding: 15px;
+  text-align: left;
+  color: black; /* Forzar el color de texto a negro */
+  font-weight: 600;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+}
+
+.elements-table td {
+  padding: 15px;
+  border-bottom: 1px solid #e9ecef;
+  color: black; /* Forzar el color de texto a negro */
+}
+
+.stock-badge {
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  background-color: rgba(40, 167, 69, 0.1);
+  color: #28a745; /* Dejado con su color primario */
+}
+
+.stock-badge.low {
+  background-color: rgba(220, 53, 69, 0.1);
+  color: #dc3545; /* Dejado con su color primario */
+}
+
+.actions {
+  display: flex;
+  gap: 10px;
+}
+
+.edit-btn, .delete-btn {
+  border: none;
+  background: none;
+  cursor: pointer;
+  padding: 5px;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  color: black; /* Establecer el color de texto a negro */
+}
+
+.edit-btn {
+  color: #5d78ff; /* Dejado con su color primario */
+}
+
+.delete-btn {
+  color: #f72585; /* Dejado con su color primario */
+}
+
+/* Modal de edición */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  color: black; /* Establecer el color de texto a negro */
+}
+
+.edit-modal {
+  background: white;
+  border-radius: 10px;
+  width: 100%;
+  max-width: 500px;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+  color: black; /* Establecer el color de texto a negro */
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+  border-bottom: 1px solid #e9ecef;
+}
+
+.modal-header h3 {
+  margin: 0;
+  color: black; /* Forzar el color de texto a negro */
+}
+
+.close-btn {
+  border: none;
+  background: none;
+  cursor: pointer;
+  color: black; /* Forzar el color de texto a negro */
+  font-size: 1.2rem;
+}
+
+.modal-body {
+  padding: 20px;
+  color: black; /* Establecer el color de texto a negro */
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 8px;
+  color: black; /* Forzar el color de texto a negro */
+  font-weight: 500;
+}
+
+.form-group input,
+.form-group select {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #e9ecef;
+  border-radius: 6px;
+  font-size: 1rem;
+  color: black; /* Forzar el color de texto a negro */
+}
+
+.form-row {
+  display: flex;
+  gap: 15px;
+}
+
+.form-row .form-group {
+  flex: 1;
+}
+
+.modal-footer {
+  padding: 20px;
+  border-top: 1px solid #e9ecef;
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.cancel-btn {
+  background: #f8f9fa;
+  color: black; /* Forzar el color de texto a negro */
+  border: none;
+  padding: 10px 20px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.save-btn {
+  background: #6c5ffc;
+  color: black; /* Forzar el color de texto a negro */
+  border: none;
+  padding: 10px 20px;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
   .elements-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 20px;
-  }
-  
-  .search-box {
-    display: flex;
-    align-items: center;
-    background: #f5f7fa;
-    border-radius: 6px;
-    padding: 8px 15px;
-    width: 300px;
-  }
-  
-  .search-box input {
-    border: none;
-    background: transparent;
-    margin-left: 10px;
-    width: 100%;
-    outline: none;
-  }
-  
-  .search-icon {
-    color: #adb5bd;
-  }
-  
-  .add-button {
-    background: #6c5ffc;
-    color: white;
-    border: none;
-    padding: 10px 15px;
-    border-radius: 6px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    cursor: pointer;
-    transition: background 0.3s;
-  }
-  
-  .add-button:hover {
-    background: #5a4fcf;
-  }
-  
-  .elements-table-container {
-    background: white;
-    border-radius: 10px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-    overflow: hidden;
-  }
-  
-  .elements-table {
-    width: 100%;
-    border-collapse: collapse;
-  }
-  
-  .elements-table th {
-    background: #f8f9fa;
-    padding: 15px;
-    text-align: left;
-    color: #5d6279;
-    font-weight: 600;
-    font-size: 0.8rem;
-    text-transform: uppercase;
-  }
-  
-  .elements-table td {
-    padding: 15px;
-    border-bottom: 1px solid #e9ecef;
-    color: #1b263b;
-  }
-  
-  .stock-badge {
-    padding: 4px 10px;
-    border-radius: 20px;
-    font-size: 0.8rem;
-    font-weight: 500;
-    background-color: rgba(40, 167, 69, 0.1);
-    color: #28a745;
-  }
-  
-  .stock-badge.low {
-    background-color: rgba(220, 53, 69, 0.1);
-    color: #dc3545;
-  }
-  
-  .actions {
-    display: flex;
-    gap: 10px;
-  }
-  
-  .edit-btn, .delete-btn {
-    border: none;
-    background: none;
-    cursor: pointer;
-    padding: 5px;
-    border-radius: 4px;
-    display: flex;
-    align-items: center;
-  }
-  
-  .edit-btn {
-    color: #5d78ff;
-  }
-  
-  .edit-btn:hover {
-    background: rgba(93, 120, 255, 0.1);
-  }
-  
-  .delete-btn {
-    color: #f72585;
-  }
-  
-  .delete-btn:hover {
-    background: rgba(247, 37, 133, 0.1);
-  }
-  
-  /* Modal de edición */
-  .modal-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: rgba(0, 0, 0, 0.5);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 1000;
-  }
-  
-  .edit-modal {
-    background: white;
-    border-radius: 10px;
-    width: 100%;
-    max-width: 500px;
-    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
-  }
-  
-  .modal-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 20px;
-    border-bottom: 1px solid #e9ecef;
-  }
-  
-  .modal-header h3 {
-    margin: 0;
-    color: #1b263b;
-  }
-  
-  .close-btn {
-    border: none;
-    background: none;
-    cursor: pointer;
-    color: #adb5bd;
-    font-size: 1.2rem;
-  }
-  
-  .modal-body {
-    padding: 20px;
-  }
-  
-  .form-group {
-    margin-bottom: 15px;
-  }
-  
-  .form-group label {
-    display: block;
-    margin-bottom: 8px;
-    color: #5d6279;
-    font-weight: 500;
-  }
-  
-  .form-group input,
-  .form-group select {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #e9ecef;
-    border-radius: 6px;
-    font-size: 1rem;
-  }
-  
-  .form-row {
-    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
     gap: 15px;
   }
-  
-  .form-row .form-group {
-    flex: 1;
+
+  .search-box {
+    width: 100%;
   }
-  
-  .modal-footer {
-    padding: 20px;
-    border-top: 1px solid #e9ecef;
-    display: flex;
-    justify-content: flex-end;
-    gap: 10px;
+
+  .add-button {
+    width: 100%;
+    justify-content: center;
   }
-  
-  .cancel-btn {
-    background: #f8f9fa;
-    color: #1b263b;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 6px;
-    cursor: pointer;
+
+  .form-row {
+    flex-direction: column;
+    gap: 0;
   }
-  
-  .save-btn {
-    background: #6c5ffc;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 6px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    cursor: pointer;
+
+  .edit-modal {
+    width: 95%;
   }
-  
-  /* Responsive */
-  @media (max-width: 768px) {
-    .elements-header {
-      flex-direction: column;
-      align-items: flex-start;
-      gap: 15px;
-    }
-  
-    .search-box {
-      width: 100%;
-    }
-  
-    .add-button {
-      width: 100%;
-      justify-content: center;
-    }
-  
-    .form-row {
-      flex-direction: column;
-      gap: 0;
-    }
-  
-    .edit-modal {
-      width: 95%;
-    }
-  }
+}

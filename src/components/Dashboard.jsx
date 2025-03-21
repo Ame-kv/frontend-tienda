@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import "bootstrap/dist/css/bootstrap.min.css";
 import "../styles/Dashboard.css";
 import Carrito from "./Carrito";
 import Pago from "./Pago";
@@ -13,6 +12,8 @@ function Dashboard() {
   const [cartItems, setCartItems] = useState([]);
   const [showCarrito, setShowCarrito] = useState(false);
   const [showPago, setShowPago] = useState(false);
+  const [showAddToCartMessage, setShowAddToCartMessage] = useState(false);
+  const [addToCartMessage, setAddToCartMessage] = useState("");
   const navigate = useNavigate();
 
   const prendas = [
@@ -21,29 +22,30 @@ function Dashboard() {
       nombre: "Crop Top con Estampado de Planeta",
       imagen: "/imagenes/blusa2.jpg",
       descripcion: "Crop top negro con estampado de planeta y estrellas.",
-      precio: 19.99,
+      precio: 60.00,
     },
     {
       id: 2,
       nombre: "Blusa a los hombros",
       imagen: "/imagenes/blusa.jpg",
       descripcion: "blusa floreada, color crema.",
-      precio: 19.99,
+      precio: 130.00,
     },
     {
       id: 3,
       nombre: "Conjunto",
       imagen: "/imagenes/ropa.jpg",
       descripcion: "conjunto de blusa y short azul.",
-      precio: 19.99,
+      precio: 250.00,
     },
     {
       id: 4,
       nombre: "Súeter",
       imagen: "/imagenes/sueter.jpg",
       descripcion: "sueter floreado estilo crochet.",
-      precio: 19.99,
+      precio: 150.00,
     },
+    
   ];
 
   const seleccionarPrenda = (prenda) => {
@@ -70,9 +72,14 @@ function Dashboard() {
     }
     const item = { ...prendaSeleccionada, talla: tallaSeleccionada };
     setCartItems([...cartItems, item]);
-    alert(`${prendaSeleccionada.nombre} (Talla: ${tallaSeleccionada}) ha sido agregado al carrito.`);
-    setPrendaSeleccionada(null);
-    setTallaSeleccionada(null);
+    setAddToCartMessage(`${prendaSeleccionada.nombre} (Talla: ${tallaSeleccionada}) ha sido agregado al carrito.`);
+    setShowAddToCartMessage(true);
+    setTimeout(() => {
+      setShowAddToCartMessage(false);
+    }, 3000); // El mensaje desaparece después de 3 segundos
+    // No resetear prendaSeleccionada y tallaSeleccionada aquí para mantener la vista
+    // setPrendaSeleccionada(null);
+    // setTallaSeleccionada(null);
   };
 
   const handleProceedToPago = () => {
@@ -100,22 +107,24 @@ function Dashboard() {
 
   return (
     <div className="dashboard-container">
-      {/* Barra superior con botones */}
-      <div className="dashboard-header">
-        <h1>¡Bienvenido a ClothesFever!</h1>
-        <div className="dashboard-buttons">
-          <button className="btn-carrito" onClick={toggleCarrito}>
-            <FaShoppingCart />
-            <span className="carrito-count">{cartItems.length}</span>
-          </button>
-          <button className="btn-admin" onClick={goToAdmin}>
-            <FaUserCog /> Admin
-          </button>
+      {/* Barra superior con botones - Solo visible cuando NO está en carrito/pago */}
+      {!showCarrito && !showPago && (
+        <div className="dashboard-header">
+          <h1>¡Bienvenido a ClothesFever!</h1>
+          <div className="dashboard-buttons">
+            <button className="btn-carrito" onClick={toggleCarrito}>
+              <FaShoppingCart />
+              <span className="carrito-count">{cartItems.length}</span>
+            </button>
+            <button className="btn-admin" onClick={goToAdmin}>
+              <FaUserCog /> Admin
+            </button>
+          </div>
         </div>
-      </div>
+      )}
 
       {/* Contenido principal */}
-      {/* Barra de búsqueda */}
+      {/* Barra de búsqueda - Solo visible en la vista principal de las prendas */}
       {!prendaSeleccionada && !showCarrito && !showPago && (
         <div className="search-bar">
           <input
@@ -166,10 +175,22 @@ function Dashboard() {
             <button className="btn btn-secondary mt-2" onClick={regresarALista}>
               Regresar a la Lista
             </button>
+
+            {/* Mensaje de agregar al carrito - AHORA DENTRO DE LOS DETALLES */}
+            {showAddToCartMessage && (
+              <div className="add-to-cart-message-details">
+                {addToCartMessage}
+              </div>
+            )}
+
           </div>
         </div>
       ) : showCarrito ? (
-        <Carrito cartItems={cartItems} onProceedToPago={handleProceedToPago} />
+        <Carrito
+          cartItems={cartItems}
+          onProceedToPago={handleProceedToPago}
+          onBack={() => setShowCarrito(false)}
+        />
       ) : showPago ? (
         <Pago cartItems={cartItems} onBack={handleBackFromPago} />
       ) : (

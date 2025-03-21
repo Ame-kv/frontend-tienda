@@ -8,7 +8,7 @@ body, html {
 
 .dashboard-container {
   padding: 25px;
-  background-color: #f8f9fa;
+  background-color: #f99782; /* Color de fondo general */
   height: 100%; /* Ocupa todo el alto de la pantalla */
   display: flex;
   flex-direction: column; /* Asegura que los elementos se dispongan verticalmente */
@@ -43,21 +43,21 @@ body, html {
 
 .btn-carrito, .btn-admin {
   display: flex;
-  align-items: center;  /* Centra el contenido dentro del botón */
-  justify-content: center;  /* Centra el contenido dentro del botón */
+  align-items: center; /* Centra el contenido dentro del botón */
+  justify-content: center; /* Centra el contenido dentro del botón */
   padding: 10px 15px;
   font-size: 16px;
   border-radius: 6px;
-  background-color: #28a745;  /* Botón carrito */
+  background-color: #ccc4c4; /* Botón carrito - color rojo anaranjado */
   color: white;
   border: none;
   cursor: pointer;
-  width: 150px;  /* Mismo ancho para ambos botones */
-  height: 40px;  /* Mismo alto para ambos botones */
+  width: 150px; /* Mismo ancho para ambos botones */
+  height: 40px; /* Mismo alto para ambos botones */
 }
 
 .btn-admin {
-  background-color: #6c5ffc;
+  background-color: #F99782; /* Dejado igual */
 }
 
 .btn-carrito:hover, .btn-admin:hover {
@@ -100,25 +100,25 @@ body, html {
   border-radius: 8px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
   padding: 20px;
-  max-width: 1000px;  /* Limitar el ancho máximo de la tarjeta */
-  margin: 20px auto;  /* Centrado y separación en la parte superior */
+  max-width: 1000px; /* Limitar el ancho máximo de la tarjeta */
+  margin: 20px auto; /* Centrado y separación en la parte superior */
   text-align: center; /* Centra el texto dentro de la tarjeta */
 }
 
 .prenda-detalles img {
-  max-width: 60%;  /* Hacer la imagen más pequeña (60% del contenedor) */
-  height: auto;  /* Mantiene la proporción de la imagen */
+  max-width: 60%; /* Hacer la imagen más pequeña (60% del contenedor) */
+  height: auto; /* Mantiene la proporción de la imagen */
   border-radius: 8px;
-  margin-bottom: 20px;  /* Añadir separación entre la imagen y el texto */
+  margin-bottom: 20px; /* Añadir separación entre la imagen y el texto */
 }
 
 .prenda-detalles .card-title {
-  font-size: 1.6rem;  /* Ajustar el tamaño del título */
+  font-size: 1.6rem; /* Ajustar el tamaño del título */
   margin-bottom: 15px;
 }
 
 .prenda-detalles .card-text {
-  font-size: 1.2rem;  /* Reducir el tamaño de texto */
+  font-size: 1.2rem; /* Reducir el tamaño de texto */
   line-height: 1.5;
 }
 
@@ -133,9 +133,13 @@ body, html {
   padding: 12px 20px;
   font-size: 16px;
   border-radius: 6px;
-  width: 100%;  /* Botón al 100% de ancho */
-  max-width: 300px;  /* Limitar el ancho del botón */
+  width: 100%; /* Botón al 100% de ancho */
+  max-width: 300px; /* Limitar el ancho del botón */
   margin-top: 10px;
+  background-color: #e26b51; /* Botón de detalles - color rojo anaranjado */
+  color: white;
+  border: none;
+  cursor: pointer;
 }
 
 .prenda-detalles .tallas-selector label {
@@ -165,3 +169,17 @@ body, html {
   font-size: 1.2rem;
   color: #333;
 }
+
+/* Estilos para el mensaje de agregar al carrito DENTRO de los detalles */
+.add-to-cart-message-details {
+  background-color: #4CAF50; /* Verde suave */
+  color: white;
+  padding: 10px 15px;
+  border-radius: 6px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin-top: 15px;
+  font-size: 0.9rem;
+  text-align: center;
+}
+
+

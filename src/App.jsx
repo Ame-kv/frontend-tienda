@@ -1,5 +1,6 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import 'bootstrap/dist/css/bootstrap.min.css';
 import Registro from "./Registro";
 import Login from "./Login";
 import Dashboard from './components/Dashboard';

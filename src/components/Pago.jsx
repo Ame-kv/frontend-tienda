@@ -3,173 +3,230 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "../styles/Pago.css";
 
 const Pago = ({ cartItems, onBack }) => {
-  const [nombre, setNombre] = useState("");
-  const [direccion, setDireccion] = useState("");
-  const [telefono, setTelefono] = useState("");
-  const [codigoPostal, setCodigoPostal] = useState("");
-  const [email, setEmail] = useState("");
-  const [cardNumber, setCardNumber] = useState("");
-  const [expiryDate, setExpiryDate] = useState("");
-  const [cvv, setCvv] = useState("");
+  const [formData, setFormData] = useState({
+    nombre: "",
+    direccion: "",
+    telefono: "",
+    codigoPostal: "",
+    email: "",
+    cardNumber: "",
+    expiryDate: "",
+    cvv: ""
+  });
   const [guardarInfo, setGuardarInfo] = useState(false);
+  const [pagoExitoso, setPagoExitoso] = useState(false);
 
   const total = cartItems.reduce((sum, item) => sum + item.precio, 0);
 
-  const handleSubmit = (e) => {
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({ ...prev, [name]: value }));
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Lógica para procesar el pago
-    alert(`Pago procesado por un total de $${total.toFixed(2)}`);
-    onBack(); // Regresar a la vista anterior después del pago
+    // Simulación de procesamiento de pago (aquí iría tu lógica real)
+    await new Promise(resolve => setTimeout(resolve, 1500)); // Simular espera
+
+    setPagoExitoso(true);
+    // No se establece un temporizador para ocultar el mensaje
+  };
+
+  const handleVolver = () => {
+    setPagoExitoso(false);
+    onBack();
+  };
+
+  const formatCardNumber = (value) => {
+    return value.replace(/\s/g, '').replace(/(\d{4})/g, '$1 ').trim();
   };
 
   return (
-    <div className="pago-container">
-      <h2>Proceder al Pago</h2>
-      <div className="pago-content">
-        {/* Resumen del Pedido */}
-        <div className="resumen-pedido">
-          <h3>Resumen del Pedido</h3>
-          <ul>
-            {cartItems.map((item) => (
-              <li key={item.id}>
-                {item.nombre} - ${item.precio.toFixed(2)}
-              </li>
-            ))}
-          </ul>
-          <div className="resumen-total">
-            <p>
-              <strong>Total a pagar:</strong> ${total.toFixed(2)}
-            </p>
-          </div>
+    <div className={`pago-container-compact ${pagoExitoso ? 'pago-exitoso-container' : ''}`}>
+     
+
+      <h2 className="titulo-pago">{pagoExitoso ? 'Pago Exitoso' : 'Proceder al Pago'}</h2>
+
+      {pagoExitoso ? (
+        <div className="mensaje-exito-pago">
+          <div className="icono-exito-pago">✓</div>
+          <p className="texto-exito-pago">¡Tu pago de <strong>${total.toFixed(2)}</strong> ha sido procesado con éxito!</p>
+          <p className="texto-exito-pago">Recibirás un correo electrónico con los detalles de tu compra.</p>
+          <button className="btn-volver-pedido" onClick={handleVolver}>Volver al Pedido</button>
         </div>
+      ) : (
+        <div className="pago-content-compact">
+          {/* Resumen Compacto */}
+          <div className="resumen-compact">
+            <h3>Tu Pedido</h3>
 
-        {/* Formulario de Pago */}
-        <form onSubmit={handleSubmit} className="pago-form">
-          {/* Nombre */}
-          <div className="form-group">
-            <label>Nombre</label>
-            <input
-              type="text"
-              value={nombre}
-              onChange={(e) => setNombre(e.target.value)}
-              placeholder="Nombre Completo"
-              required
-            />
-          </div>
-
-          {/* Dirección */}
-          <div className="form-group">
-            <label>Dirección</label>
-            <input
-              type="text"
-              value={direccion}
-              onChange={(e) => setDireccion(e.target.value)}
-              placeholder="Dirección"
-              required
-            />
-          </div>
-
-          {/* Teléfono */}
-          <div className="form-group">
-            <label>Teléfono</label>
-            <input
-              type="text"
-              value={telefono}
-              onChange={(e) => setTelefono(e.target.value)}
-              placeholder="Teléfono"
-              required
-            />
-          </div>
-
-          {/* Código Postal */}
-          <div className="form-group">
-            <label>Código Postal</label>
-            <input
-              type="text"
-              value={codigoPostal}
-              onChange={(e) => setCodigoPostal(e.target.value)}
-              placeholder="Código Postal"
-              required
-            />
-          </div>
-
-          {/* Correo Electrónico */}
-          <div className="form-group">
-            <label>Correo Electrónico</label>
-            <input
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder="Correo Electrónico"
-              required
-            />
-          </div>
-
-          {/* Información de la Tarjeta */}
-          <div className="form-group">
-            <label>Información de la Tarjeta</label>
-            <div className="credit-card-visual">
-              <div className="card-front">
-                <div className="card-logo">VISA</div>
-                <div className="card-number">
-                  {cardNumber || "**** **** **** ****"}
+            {/* Nuevo apartado para imágenes de productos */}
+            <div className="productos-imagenes">
+              {cartItems.map(item => (
+                <div key={item.id} className="producto-imagen-container">
+                  <img
+                    src={item.imagen || 'https://via.placeholder.com/80'}
+                    alt={item.nombre}
+                    className="producto-imagen"
+                  />
                 </div>
-                <div className="card-info">
-                  <div className="card-expiry">{expiryDate || "MM/AA"}</div>
+              ))}
+            </div>
+
+            <ul>
+              {cartItems.map(item => (
+                <li key={item.id}>
+                  <span>{item.nombre}</span>
+                  <span>${item.precio.toFixed(2)}</span>
+                </li>
+              ))}
+            </ul>
+            <div className="total-compact">
+              <span>Total:</span>
+              <span>${total.toFixed(2)}</span>
+            </div>
+          </div>
+
+          {/* Formulario Compacto */}
+          <form onSubmit={handleSubmit} className="formulario-compact">
+            <div className="seccion-form">
+              <h3>Información Personal</h3>
+              <div className="form-group-compact">
+                <input
+                  type="text"
+                  name="nombre"
+                  placeholder="Nombre Completo"
+                  value={formData.nombre}
+                  onChange={handleChange}
+                  required
+                />
+              </div>
+              <div className="form-group-compact">
+                <input
+                  type="email"
+                  name="email"
+                  placeholder="Correo Electrónico"
+                  value={formData.email}
+                  onChange={handleChange}
+                  required
+                />
+              </div>
+              <div className="form-group-compact">
+                <input
+                  type="tel"
+                  name="telefono"
+                  placeholder="Teléfono"
+                  value={formData.telefono}
+                  onChange={handleChange}
+                  required
+                />
+              </div>
+            </div>
+
+            <div className="seccion-form">
+              <h3>Dirección</h3>
+              <div className="form-group-compact">
+                <input
+                  type="text"
+                  name="direccion"
+                  placeholder="Dirección"
+                  value={formData.direccion}
+                  onChange={handleChange}
+                  required
+                />
+              </div>
+              <div className="form-group-compact">
+                <input
+                  type="text"
+                  name="codigoPostal"
+                  placeholder="Código Postal"
+                  value={formData.codigoPostal}
+                  onChange={handleChange}
+                  required
+                />
+              </div>
+            </div>
+
+            <div className="seccion-form">
+              <h3>Información de Pago</h3>
+              <div className="tarjeta-visual-compact">
+                <div className="tipo-tarjeta">VISA</div>
+                <div className="numero-tarjeta">
+                  {formData.cardNumber || "•••• •••• •••• ••••"}
+                </div>
+                <div className="tarjeta-inferior">
+                  <span className="fecha-expiracion">{formData.expiryDate || "MM/AA"}</span>
+                  <span className="cvv">{formData.cvv || "CVC"}</span>
+                </div>
+              </div>
+
+              <div className="form-group-compact">
+                <input
+                  type="text"
+                  name="cardNumber"
+                  placeholder="Número de Tarjeta"
+                  value={formData.cardNumber}
+                  onChange={(e) => {
+                    const formatted = formatCardNumber(e.target.value.replace(/\D/g, ''));
+                    setFormData({...formData, cardNumber: formatted});
+                  }}
+                  maxLength="19"
+                  required
+                />
+              </div>
+
+              <div className="grupo-doble">
+                <div className="form-group-compact">
+                  <input
+                    type="text"
+                    name="expiryDate"
+                    placeholder="MM/AA"
+                    value={formData.expiryDate}
+                    onChange={(e) => {
+                      const value = e.target.value.replace(/\D/g, '');
+                      let formatted = value;
+                      if (value.length > 2) {
+                        formatted = `${value.slice(0, 2)}/${value.slice(2, 4)}`;
+                      }
+                      setFormData({...formData, expiryDate: formatted});
+                    }}
+                    maxLength="5"
+                    required
+                  />
+                </div>
+                <div className="form-group-compact">
+                  <input
+                    type="text"
+                    name="cvv"
+                    placeholder="CVC"
+                    value={formData.cvv}
+                    onChange={(e) => {
+                      setFormData({...formData, cvv: e.target.value.replace(/\D/g, '').slice(0, 3)});
+                    }}
+                    maxLength="3"
+                    required
+                  />
                 </div>
               </div>
             </div>
-            <input
-              type="text"
-              value={cardNumber}
-              onChange={(e) => setCardNumber(e.target.value)}
-              placeholder="1234 1234 1234 1234"
-              maxLength="16"
-              required
-            />
-            <div className="form-row">
-              <input
-                type="text"
-                value={expiryDate}
-                onChange={(e) => setExpiryDate(e.target.value)}
-                placeholder="MM/AA"
-                maxLength="5"
-                required
-              />
-              <input
-                type="text"
-                value={cvv}
-                onChange={(e) => setCvv(e.target.value)}
-                placeholder="CVC"
-                maxLength="3"
-                required
-              />
+
+            <div className="opcion-guardar">
+              <label>
+                <input
+                  type="checkbox"
+                  checked={guardarInfo}
+                  onChange={() => setGuardarInfo(!guardarInfo)}
+                />
+                Guardar información para futuros pagos
+              </label>
             </div>
-          </div>
 
-          {/* Guardar Información */}
-          <div className="form-group guardar-info">
-            <label>
-              <input
-                type="checkbox"
-                checked={guardarInfo}
-                onChange={(e) => setGuardarInfo(e.target.checked)}
-              />
-              Guardar la información para pagar más rápido la próxima vez
-            </label>
-          </div>
-
-          {/* Botón de Pago */}
-          <button type="submit" className="btn-pagar">
-            Pagar ${total.toFixed(2)}
-          </button>
-        </form>
-      </div>
-
-      {/* Botón de Regresar */}
-      <button className="btn-regresar" onClick={onBack}>
-        Regresar
-      </button>
+            <button type="submit" className="btn-pagar-compact" disabled={pagoExitoso}>
+              Pagar ${total.toFixed(2)}
+            </button>
+          </form>
+        </div>
+      )}
     </div>
   );
 };
