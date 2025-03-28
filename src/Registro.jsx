@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import "./style.css"; // Asegúrate de que tienes el style.css vinculado
+import "./style.css";
+import logo from "./assets/logo.jpeg";
 
 function Registro() {
   const [nombre, setNombre] = useState("");
@@ -17,6 +18,9 @@ function Registro() {
 
   return (
     <div className="registro-container"> {/* Contenedor principal */}
+      <div className="logo-container"> {/* Contenedor para el logo */}
+        <img src={logo} alt="Logo ClothesFever" className="logo" />
+      </div>
       <h2>Registro</h2>
       {registroExitoso ? (
         <p className="success-message">Registro exitoso!</p>

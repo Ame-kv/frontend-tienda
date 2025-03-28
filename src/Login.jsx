@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./style.css";
+import logo from "./assets/logo.jpeg";
 
 function Login() {
   const navigate = useNavigate();
@@ -23,6 +24,9 @@ function Login() {
 
   return (
     <div className="login-container">
+      <div className="logo-container"> {/* Contenedor para el logo */}
+        <img src={logo} alt="Logo ClothesFever" className="logo" />
+      </div>
       <h2>Iniciar Sesión</h2>
       <form onSubmit={handleSubmit}>
         <div className="input-container">
@@ -43,7 +47,7 @@ function Login() {
         </div>
         <button type="submit">Iniciar Sesión</button>
       </form>
-      {error && <p className="error-message">{error}</p>} {/* Usa la clase error-message */}
+      {error && <p className="error-message">{error}</p>}
       <button onClick={handleRegistro}>Ir a Registro</button>
     </div>
   );

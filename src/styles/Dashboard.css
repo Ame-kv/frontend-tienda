@@ -1,0 +1,167 @@
+/* Asegúrate de que no haya márgenes ni padding en la página */
+body, html {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  font-family: Arial, sans-serif;
+}
+
+.dashboard-container {
+  padding: 25px;
+  background-color: #f8f9fa;
+  height: 100%; /* Ocupa todo el alto de la pantalla */
+  display: flex;
+  flex-direction: column; /* Asegura que los elementos se dispongan verticalmente */
+  justify-content: flex-start; /* Los coloca al principio (parte superior) */
+}
+
+.dashboard-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center; /* Alineación vertical de los elementos dentro de .dashboard-header */
+  margin-top: 0px; /* Despejamos más el límite superior para que esté más abajo */
+  margin-bottom: 20px;
+  background-color: white;
+  padding: 10px 15px;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  width: 100%;
+}
+
+.dashboard-header h1 {
+  margin: 0;
+  font-size: 1.8rem;
+  color: #333;
+}
+
+.dashboard-buttons {
+  display: flex;
+  gap: 15px;
+  align-items: center; /* Alinea verticalmente los botones */
+  justify-content: center; /* Centra los botones horizontalmente */
+}
+
+.btn-carrito, .btn-admin {
+  display: flex;
+  align-items: center;  /* Centra el contenido dentro del botón */
+  justify-content: center;  /* Centra el contenido dentro del botón */
+  padding: 10px 15px;
+  font-size: 16px;
+  border-radius: 6px;
+  background-color: #28a745;  /* Botón carrito */
+  color: white;
+  border: none;
+  cursor: pointer;
+  width: 150px;  /* Mismo ancho para ambos botones */
+  height: 40px;  /* Mismo alto para ambos botones */
+}
+
+.btn-admin {
+  background-color: #6c5ffc;
+}
+
+.btn-carrito:hover, .btn-admin:hover {
+  opacity: 0.8;
+}
+
+/* Espacio entre los iconos y el texto */
+.btn-carrito svg, .btn-admin svg {
+  margin-right: 8px; /* Añadir espacio entre el icono y el texto */
+}
+
+/* Estilo para la barra de búsqueda */
+.search-bar {
+  margin-top: 40px; /* Separar un poco más la barra de búsqueda */
+  margin-bottom: 20px;
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+.search-bar input {
+  padding: 10px;
+  font-size: 16px;
+  width: 90%; /* Ocupa casi todo el ancho */
+  max-width: 800px; /* Limita el ancho máximo */
+  border-radius: 6px;
+  border: 1px solid #ddd;
+}
+
+/* Ajustes para las imágenes de los productos */
+.prendas-lista .card-img-top {
+  height: 250px; /* Fija una altura para las imágenes */
+  object-fit: cover; /* Asegura que la imagen se recorte para no distorsionarse */
+  width: 100%; /* Asegura que la imagen ocupe todo el ancho de su contenedor */
+}
+
+/* Detalles de la prenda seleccionada */
+.prenda-detalles {
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  max-width: 1000px;  /* Limitar el ancho máximo de la tarjeta */
+  margin: 20px auto;  /* Centrado y separación en la parte superior */
+  text-align: center; /* Centra el texto dentro de la tarjeta */
+}
+
+.prenda-detalles img {
+  max-width: 60%;  /* Hacer la imagen más pequeña (60% del contenedor) */
+  height: auto;  /* Mantiene la proporción de la imagen */
+  border-radius: 8px;
+  margin-bottom: 20px;  /* Añadir separación entre la imagen y el texto */
+}
+
+.prenda-detalles .card-title {
+  font-size: 1.6rem;  /* Ajustar el tamaño del título */
+  margin-bottom: 15px;
+}
+
+.prenda-detalles .card-text {
+  font-size: 1.2rem;  /* Reducir el tamaño de texto */
+  line-height: 1.5;
+}
+
+.prenda-detalles .tallas-selector {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin-top: 20px;
+}
+
+.prenda-detalles button {
+  padding: 12px 20px;
+  font-size: 16px;
+  border-radius: 6px;
+  width: 100%;  /* Botón al 100% de ancho */
+  max-width: 300px;  /* Limitar el ancho del botón */
+  margin-top: 10px;
+}
+
+.prenda-detalles .tallas-selector label {
+  padding: 10px 15px;
+  font-size: 1rem;
+  cursor: pointer;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  transition: background-color 0.3s;
+}
+
+.prenda-detalles .tallas-selector label:hover {
+  background-color: #f0f0f0;
+}
+
+.prenda-detalles .tallas-selector .active {
+  background-color: #6c5ffc;
+  color: white;
+}
+
+/* Ajustes para la lista de productos */
+.product-list {
+  margin-top: 30px;
+}
+
+.product-list p {
+  font-size: 1.2rem;
+  color: #333;
+}
