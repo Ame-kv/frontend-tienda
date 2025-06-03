@@ -5,12 +5,12 @@
   --success: #4cc9f0;
   --warning: #f8961e;
   --danger: #f72585;
-  --dark: black; /* Cambiado a negro */
-  --dark-gray: black; /* Cambiado a negro */
-  --gray: black; /* Cambiado a negro */
+  --dark: black; 
+  --dark-gray: black; 
+  --gray: black; 
   --light-gray: #e9ecef;
   --light: #f8f9fa;
-  --white: black; /* Cambiado a negro */
+  --white: black; 
 }
 
 /* Reset y base */
@@ -18,14 +18,14 @@
   box-sizing: border-box;
   margin: 0;
   padding: 0;
-  color: black; /* Establecer el color de texto por defecto a negro */
+  color: black; 
 }
 
 html, body {
   height: 100%;
   width: 100%;
   overflow-x: hidden;
-  color: black; /* Asegurar que el texto base sea negro */
+  color: black; 
 }
 
 /* Layout principal */
@@ -36,14 +36,14 @@ html, body {
   background-color: var(--light);
   margin: 0;
   padding: 0;
-  color: black; /* Asegurar que el texto dentro del dashboard sea negro */
+  color: black; 
 }
 
 /* Sidebar */
 .cf-sidebar {
   width: 280px;
   min-width: 280px;
-  background: #e07c6a; /* var(--dark) */
+  background: #e07c6a; 
   color: white; /* Cambiado a blanco */
   height: 100vh;
   position: fixed;
@@ -58,8 +58,7 @@ html, body {
   border-bottom: 1px solid #2d3345;
   position: sticky;
   top: 0;
-  background: #d6967c; /* fondo con el nombre ClothesFever ----------------------------------------*/
-  z-index: 10;
+  background: #d6967c; 
 }
 
 .cf-sidebar-header h1 {
@@ -170,7 +169,7 @@ html, body {
 }
 
 .cf-back-button:hover {
-  background: #d15a40; /* Ligeramente más oscuro al hacer hover */
+  background: #d15a40; 
 }
 
 /* Grid de estadísticas */
