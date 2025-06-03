@@ -158,7 +158,7 @@ const Carrito = ({ cartItems, onProceedToPago, onBack }) => {
             <div className="promo-item">
               <span className="promo-badge">🔥 Hot</span>
               <p>
-                <strong>Termina el 26 de marzo:</strong> Gasta $6 más y obtén envío gratis
+                <strong>Termina el 19 de junio:</strong> Gasta $6 más y obtén envío gratis
               </p>
             </div>
           </div>
