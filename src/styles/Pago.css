@@ -289,3 +289,19 @@
 .btn-volver-pedido:hover {
   background-color: #0056b3;
 }
+
+.btn-cancelar-compra {
+  margin-top: 10px;
+  background-color: #dc3545;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.btn-cancelar-compra:hover {
+  background-color: #c82333;
+}

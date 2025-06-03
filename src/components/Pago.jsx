@@ -25,11 +25,8 @@ const Pago = ({ cartItems, onBack }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // Simulación de procesamiento de pago (aquí iría tu lógica real)
-    await new Promise(resolve => setTimeout(resolve, 1500)); // Simular espera
-
+    await new Promise(resolve => setTimeout(resolve, 1500));
     setPagoExitoso(true);
-    // No se establece un temporizador para ocultar el mensaje
   };
 
   const handleVolver = () => {
@@ -43,8 +40,6 @@ const Pago = ({ cartItems, onBack }) => {
 
   return (
     <div className={`pago-container-compact ${pagoExitoso ? 'pago-exitoso-container' : ''}`}>
-     
-
       <h2 className="titulo-pago">{pagoExitoso ? 'Pago Exitoso' : 'Proceder al Pago'}</h2>
 
       {pagoExitoso ? (
@@ -56,11 +51,8 @@ const Pago = ({ cartItems, onBack }) => {
         </div>
       ) : (
         <div className="pago-content-compact">
-          {/* Resumen Compacto */}
           <div className="resumen-compact">
             <h3>Tu Pedido</h3>
-
-            {/* Nuevo apartado para imágenes de productos */}
             <div className="productos-imagenes">
               {cartItems.map(item => (
                 <div key={item.id} className="producto-imagen-container">
@@ -72,7 +64,6 @@ const Pago = ({ cartItems, onBack }) => {
                 </div>
               ))}
             </div>
-
             <ul>
               {cartItems.map(item => (
                 <li key={item.id}>
@@ -87,7 +78,6 @@ const Pago = ({ cartItems, onBack }) => {
             </div>
           </div>
 
-          {/* Formulario Compacto */}
           <form onSubmit={handleSubmit} className="formulario-compact">
             <div className="seccion-form">
               <h3>Información Personal</h3>
@@ -168,7 +158,7 @@ const Pago = ({ cartItems, onBack }) => {
                   value={formData.cardNumber}
                   onChange={(e) => {
                     const formatted = formatCardNumber(e.target.value.replace(/\D/g, ''));
-                    setFormData({...formData, cardNumber: formatted});
+                    setFormData({ ...formData, cardNumber: formatted });
                   }}
                   maxLength="19"
                   required
@@ -188,7 +178,7 @@ const Pago = ({ cartItems, onBack }) => {
                       if (value.length > 2) {
                         formatted = `${value.slice(0, 2)}/${value.slice(2, 4)}`;
                       }
-                      setFormData({...formData, expiryDate: formatted});
+                      setFormData({ ...formData, expiryDate: formatted });
                     }}
                     maxLength="5"
                     required
@@ -201,7 +191,7 @@ const Pago = ({ cartItems, onBack }) => {
                     placeholder="CVC"
                     value={formData.cvv}
                     onChange={(e) => {
-                      setFormData({...formData, cvv: e.target.value.replace(/\D/g, '').slice(0, 3)});
+                      setFormData({ ...formData, cvv: e.target.value.replace(/\D/g, '').slice(0, 3) });
                     }}
                     maxLength="3"
                     required
@@ -224,6 +214,16 @@ const Pago = ({ cartItems, onBack }) => {
             <button type="submit" className="btn-pagar-compact" disabled={pagoExitoso}>
               Pagar ${total.toFixed(2)}
             </button>
+
+            {/* ✅ NUEVO BOTÓN: Cancelar Compra */}
+            <button
+              type="button"
+              className="btn-cancelar-compra"
+              onClick={handleVolver}
+            >
+              Cancelar Compra
+            </button>
+
           </form>
         </div>
       )}
