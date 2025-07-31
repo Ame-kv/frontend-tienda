@@ -1,17 +1,20 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../styles/Carrito.css";
 import { FaArrowLeft, FaTrash, FaPlus, FaMinus, FaLock } from "react-icons/fa";
 
-const Carrito = ({ cartItems, onProceedToPago, onBack }) => {
+const Carrito = ({ cartItems, setCartItems, onProceedToPago, onBack }) => {
   const [selectedItems, setSelectedItems] = useState([]);
-  const [items, setItems] = useState(
-    cartItems.map(item => ({ ...item, quantity: 1 }))
-  );
+  const [items, setItems] = useState([]);
+
+  // Sincronizar estado local items con cartItems del padre
+  useEffect(() => {
+    setItems(cartItems.map(item => ({ ...item, quantity: item.quantity || 1 })));
+  }, [cartItems]);
 
   // Calcular totales
   const subtotal = items.reduce((sum, item) => sum + (item.precio * item.quantity), 0);
-  const shipping = 5.00;
+  const shipping = 5.0;
   const total = subtotal + shipping;
   const missingForFreeShipping = Math.max(0, 6 - subtotal);
 
@@ -28,23 +31,45 @@ const Carrito = ({ cartItems, onProceedToPago, onBack }) => {
     );
   };
 
-  // Manejar cantidad de items
+  // Manejar cantidad de items (local, no backend)
   const handleQuantityChange = (id, change) => {
     setItems(prev =>
       prev.map(item =>
         item.id === id
-          ? {
-              ...item,
-              quantity: Math.max(1, item.quantity + change)
-            }
+          ? { ...item, quantity: Math.max(1, item.quantity + change) }
           : item
       )
     );
   };
 
-  // Eliminar items seleccionados
+  // Eliminar productos en backend y actualizar estado local
+  const eliminarProductoDelCarrito = async (productoId) => {
+    const userId = "usuarioEjemplo"; // Cambia esto por usuario real (auth)
+    try {
+      const res = await fetch(`http://localhost:5000/api/carrito/${userId}/${productoId}`, {
+        method: "DELETE",
+      });
+      if (!res.ok) throw new Error("Error al eliminar producto");
+
+      const data = await res.json();
+      // Mapear la respuesta para actualizar estado del carrito
+      const nuevosItems = data.items.map(item => ({
+        id: item.productoId._id,
+        nombre: item.productoId.nombre,
+        precio: item.productoId.precio,
+        imagen: item.productoId.imagen,
+        talla: item.talla,
+        quantity: item.cantidad,
+      }));
+      setCartItems(nuevosItems);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  // Eliminar items seleccionados (localmente solo, o podrías hacer llamada backend similar)
   const handleDeleteSelected = () => {
-    setItems(prev => prev.filter(item => !selectedItems.includes(item.id)));
+    selectedItems.forEach(id => eliminarProductoDelCarrito(id));
     setSelectedItems([]);
   };
 
@@ -116,6 +141,13 @@ const Carrito = ({ cartItems, onProceedToPago, onBack }) => {
                 <div className="carrito-item-price">
                   ${(item.precio * item.quantity).toFixed(2)}
                 </div>
+                <button
+                  className="btn btn-danger btn-sm"
+                  style={{ marginLeft: '10px' }}
+                  onClick={() => eliminarProductoDelCarrito(item.id)}
+                >
+                  <FaTrash /> Eliminar
+                </button>
               </div>
             ))}
           </div>
@@ -156,9 +188,9 @@ const Carrito = ({ cartItems, onProceedToPago, onBack }) => {
           <div className="carrito-promociones">
             <h4>Ofertas especiales</h4>
             <div className="promo-item">
-              <span className="promo-badge">🔥 Hot</span>
+              <span className="promo-badge"> Hot</span>
               <p>
-                <strong>Termina el 19 de junio:</strong> Gasta $6 más y obtén envío gratis
+                <strong>Termina el 19 de Agosto:</strong> Gasta $6 más y obtén envío gratis
               </p>
             </div>
           </div>

@@ -1,38 +1,23 @@
 /* Dashboard.css */
 
 .dashboard-container {
-    padding: 20px;
-  }
-  
-  .prendas-lista {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
-  }
-  
-  .prenda-card {
-    width: 200px;
-    border: 1px solid #ddd;
-    padding: 10px;
-    text-align: center;
-    cursor: pointer;
-  }
-  
-  .prenda-card img {
-    max-width: 100%;
-    height: auto;
-  }
-  
-  .prenda-detalles {
-    margin-top: 20px;
-    border: 1px solid #ddd;
-    padding: 20px;
-  }
-  
-  .prenda-detalles img {
-    max-width: 300px;
-    height: auto;
-    margin-bottom: 10px;
-  }
+  height: 100vh;            /* Toma todo el alto de la ventana */
+  overflow-y: auto;         /* Scroll vertical si hay muchas prendas */
+  padding: 20px;
+  background-color: white;
+}
 
-  
+.prendas-lista {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 20px;
+}
+
+.prenda-card {
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 10px;
+  text-align: center;
+  cursor: poi
+}
