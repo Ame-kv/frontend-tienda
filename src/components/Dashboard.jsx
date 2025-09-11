@@ -1,223 +1,81 @@
-import React, { useState } from "react";
-import "../styles/Dashboard.css";
+import React, { useEffect, useState, useContext } from "react";
+import { Link } from "react-router-dom"; 
+import { FaShoppingCart } from "react-icons/fa";
 import Carrito from "./Carrito";
-import Pago from "./Pago";
-import { FaShoppingCart, FaUserCog } from "react-icons/fa";
-import { useNavigate } from "react-router-dom";
+import { CarritoContext } from "../context/CarritoContext";
 
-function Dashboard() {
-  const [prendaSeleccionada, setPrendaSeleccionada] = useState(null);
-  const [searchTerm, setSearchTerm] = useState("");
-  const [tallaSeleccionada, setTallaSeleccionada] = useState(null);
-  const [cartItems, setCartItems] = useState([]);
-  const [showCarrito, setShowCarrito] = useState(false);
-  const [showPago, setShowPago] = useState(false);
-  const [showAddToCartMessage, setShowAddToCartMessage] = useState(false);
-  const [addToCartMessage, setAddToCartMessage] = useState("");
-  const navigate = useNavigate();
+const Dashboard = () => {
+  const [prendas, setPrendas] = useState([]);
+  const [mostrarCarrito, setMostrarCarrito] = useState(false);
+  const { cartItems, setCartItems } = useContext(CarritoContext);
+  const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
 
-  const prendas = [
-    {
-      id: 1,
-      nombre: "Crop Top con Estampado de Planeta",
-      imagen: "/imagenes/blusa2.jpg",
-      descripcion: "Crop top negro con estampado de planeta y estrellas.",
-      precio: 60.00,
-    },
-    {
-      id: 2,
-      nombre: "Blusa a los hombros",
-      imagen: "/imagenes/blusa.jpg",
-      descripcion: "blusa floreada, color crema.",
-      precio: 130.00,
-    },
-    {
-      id: 3,
-      nombre: "Conjunto",
-      imagen: "/imagenes/ropa.jpg",
-      descripcion: "conjunto de blusa y short azul.",
-      precio: 250.00,
-    },
-    {
-      id: 4,
-      nombre: "Súeter",
-      imagen: "/imagenes/sueter.jpg",
-      descripcion: "sueter floreado estilo crochet.",
-      precio: 150.00,
-    },
-    
-  ];
-
-  const seleccionarPrenda = (prenda) => {
-    setPrendaSeleccionada(prenda);
-    setTallaSeleccionada(null);
-  };
-
-  const regresarALista = () => {
-    setPrendaSeleccionada(null);
-  };
-
-  const handleSearchChange = (event) => {
-    setSearchTerm(event.target.value);
-  };
-
-  const seleccionarTalla = (talla) => {
-    setTallaSeleccionada(talla);
-  };
-
-  const agregarAlCarrito = () => {
-    if (!prendaSeleccionada || !tallaSeleccionada) {
-      alert("Por favor, selecciona una prenda y una talla antes de agregar al carrito.");
-      return;
-    }
-    const item = { ...prendaSeleccionada, talla: tallaSeleccionada };
-    setCartItems([...cartItems, item]);
-    setAddToCartMessage(`${prendaSeleccionada.nombre} (Talla: ${tallaSeleccionada}) ha sido agregado al carrito.`);
-    setShowAddToCartMessage(true);
-    setTimeout(() => {
-      setShowAddToCartMessage(false);
-    }, 3000); // El mensaje desaparece después de 3 segundos
-    // No resetear prendaSeleccionada y tallaSeleccionada aquí para mantener la vista
-    // setPrendaSeleccionada(null);
-    // setTallaSeleccionada(null);
-  };
-
-  const handleProceedToPago = () => {
-    setShowCarrito(false);
-    setShowPago(true);
-  };
-
-  const handleBackFromPago = () => {
-    setShowPago(false);
-    setShowCarrito(true);
-  };
-
-  const toggleCarrito = () => {
-    setShowCarrito(!showCarrito);
-    setShowPago(false);
-  };
-
-  const goToAdmin = () => {
-    navigate('/admin');
-  };
-
-  const prendasFiltradas = prendas.filter((prenda) =>
-    prenda.nombre.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  useEffect(() => {
+    fetch(`${API_URL}/api/prendas`)
+      .then((res) => res.json())
+      .then((data) => setPrendas(data))
+      .catch((err) => console.error("Error al cargar las prendas:", err));
+  }, []);
 
   return (
-    <div className="dashboard-container">
-      {/* Barra superior con botones - Solo visible cuando NO está en carrito/pago */}
-      {!showCarrito && !showPago && (
-        <div className="dashboard-header">
-          <h1>¡Bienvenido a ClothesFever!</h1>
-          <div className="dashboard-buttons">
-            <button className="btn-carrito" onClick={toggleCarrito}>
-              <FaShoppingCart />
-              <span className="carrito-count">{cartItems.length}</span>
-            </button>
-            <button className="btn-admin" onClick={goToAdmin}>
-              <FaUserCog /> Admin
-            </button>
-          </div>
-        </div>
-      )}
+    <div
+      className="container-fluid"
+      style={{ height: "100vh", display: "flex", flexDirection: "column" }}
+    >
+      <header
+        className="py-3 border-bottom d-flex justify-content-between align-items-center"
+        style={{ flexShrink: 0, backgroundColor: "white", zIndex: 10 }}
+      >
+        <h1 className="text-center m-0">ClothesFever</h1>
+        <button
+          onClick={() => setMostrarCarrito(true)}
+          style={{ fontSize: "24px", cursor: "pointer", background: "none", border: "none" }}
+          aria-label="Ver carrito"
+        >
+          <FaShoppingCart />
+          <span> ({cartItems.length})</span>
+        </button>
+      </header>
 
-      {/* Contenido principal */}
-      {/* Barra de búsqueda - Solo visible en la vista principal de las prendas */}
-      {!prendaSeleccionada && !showCarrito && !showPago && (
-        <div className="search-bar">
-          <input
-            type="text"
-            className="form-control"
-            placeholder="Buscar prendas..."
-            value={searchTerm}
-            onChange={handleSearchChange}
-          />
-        </div>
-      )}
-
-      {/* Vista de detalles de la prenda */}
-      {prendaSeleccionada ? (
-        <div className="prenda-detalles card">
-          <div className="card-body">
-            <h2 className="card-title">{prendaSeleccionada.nombre}</h2>
-            <img
-              src={prendaSeleccionada.imagen}
-              alt={prendaSeleccionada.nombre}
-              className="img-fluid"
-            />
-            <p className="card-text">{prendaSeleccionada.descripcion}</p>
-            <p className="card-text">Precio: ${prendaSeleccionada.precio}</p>
-            <div className="tallas-selector d-flex justify-content-center">
-              {["XS", "M", "L", "XL"].map((talla) => (
-                <label
-                  key={talla}
-                  className={`talla-button btn btn-outline-secondary ${
-                    tallaSeleccionada === talla ? "active" : ""
-                  }`}
-                >
-                  <input
-                    type="radio"
-                    name="talla"
-                    value={talla}
-                    checked={tallaSeleccionada === talla}
-                    onChange={() => seleccionarTalla(talla)}
-                    className="d-none"
-                  />
-                  {talla}
-                </label>
-              ))}
-            </div>
-            <button className="btn btn-primary mt-3" onClick={agregarAlCarrito}>
-              Agregar al Carrito
-            </button>
-            <button className="btn btn-secondary mt-2" onClick={regresarALista}>
-              Regresar a la Lista
-            </button>
-
-            {/* Mensaje de agregar al carrito - AHORA DENTRO DE LOS DETALLES */}
-            {showAddToCartMessage && (
-              <div className="add-to-cart-message-details">
-                {addToCartMessage}
-              </div>
-            )}
-
-          </div>
-        </div>
-      ) : showCarrito ? (
+      {mostrarCarrito ? (
         <Carrito
           cartItems={cartItems}
-          onProceedToPago={handleProceedToPago}
-          onBack={() => setShowCarrito(false)}
+          onBack={() => setMostrarCarrito(false)}
+          onProceedToPago={() => alert("Proceder al pago")}
         />
-      ) : showPago ? (
-        <Pago cartItems={cartItems} onBack={handleBackFromPago} />
       ) : (
-        <div className="prendas-lista row justify-content-center">
-          {prendasFiltradas.map((prenda) => (
-            <div
-              key={prenda.id}
-              className="col-md-3 mb-4"
-              onClick={() => seleccionarPrenda(prenda)}
-            >
-              <div className="card h-100">
-                <img
-                  src={prenda.imagen}
-                  className="card-img-top"
-                  alt={prenda.nombre}
-                />
-                <div className="card-body text-center">
-                  <h5 className="card-title">{prenda.nombre}</h5>
-                  <p className="card-text">${prenda.precio}</p>
-                </div>
+        <div
+          className="flex-grow-1 overflow-auto px-3"
+          style={{ paddingBottom: "30px" }}
+        >
+          <div className="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4 mt-2">
+            {prendas.map((prenda) => (
+              <div key={prenda._id || prenda.id} className="col">
+                <Link
+                  to={`/prenda/${prenda._id}`}
+                  style={{ textDecoration: "none", color: "inherit" }}
+                >
+                  <div className="card h-100 shadow-sm">
+                    <img
+                      src={prenda.imagen}
+                      className="card-img-top"
+                      alt={prenda.nombre}
+                      style={{ height: "250px", objectFit: "cover" }}
+                    />
+                    <div className="card-body d-flex flex-column">
+                      <h5 className="card-title">{prenda.nombre}</h5>
+                      <p className="card-text">{prenda.descripcion}</p>
+                      <p className="card-text fw-bold">${prenda.precio}</p>
+                    </div>
+                  </div>
+                </Link>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
       )}
     </div>
   );
-}
+};
 
 export default Dashboard;
