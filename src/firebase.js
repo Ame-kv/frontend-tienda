@@ -6,10 +6,10 @@ const firebaseConfig = {
   apiKey: "AIzaSyB01yg9jMImLC-x4MxawK90GXcWrzTmwE0",
   authDomain: "tienda-faf4b.firebaseapp.com",
   projectId: "tienda-faf4b",
-  storageBucket: "tienda-faf4b.appspot.com", // 🔧 corregido
+  storageBucket: "tienda-faf4b.appspot.com", 
   messagingSenderId: "391386869823",
   appId: "1:391386869823:web:c895c4be9b8e62d916088a",
-  measurementId: "G-JCVTN9D0G3" // Puedes omitirlo si no usas analytics
+  measurementId: "G-JCVTN9D0G3" 
 };
 
 // Inicialización de Firebase
