@@ -9,7 +9,7 @@ const LoginGoogle = ({ onLoginSuccess }) => {
       const result = await signInWithPopup(auth, provider);
       const user = result.user;
 
-    
+      // user al back
       onLoginSuccess(user);
     } catch (error) {
       console.error("Error en login con Google:", error);
