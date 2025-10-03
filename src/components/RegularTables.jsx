@@ -1,4 +1,5 @@
 import React from "react";
+import "../styles/RegularTables.css";
 
 const RegularTables = () => {
   // Datos de ejemplo para las tablas
