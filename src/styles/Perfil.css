@@ -1,0 +1,593 @@
+/* ==================== */
+/* PERFIL STYLES - MEJORADO */
+/* ==================== */
+
+.perfil-container {
+  padding: 30px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.perfil-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+  padding-bottom: 20px;
+  border-bottom: 2px solid var(--primary-light);
+}
+
+.perfil-header h2 {
+  color: var(--dark);
+  font-size: 2rem;
+  font-weight: 600;
+  margin: 0;
+}
+
+/* Navegación entre secciones */
+.perfil-navegacion {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 30px;
+  border-bottom: 1px solid var(--light-gray);
+  padding-bottom: 10px;
+}
+
+.nav-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 20px;
+  background: none;
+  border: none;
+  border-radius: 8px;
+  color: var(--dark-gray);
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border-bottom: 3px solid transparent;
+}
+
+.nav-btn:hover {
+  background: var(--primary-light);
+  color: var(--primary);
+}
+
+.nav-btn.active {
+  background: var(--primary-light);
+  color: var(--primary);
+  border-bottom-color: var(--primary);
+}
+
+/* Contenido del perfil */
+.perfil-content {
+  display: grid;
+  grid-template-columns: 300px 1fr;
+  gap: 50px;
+  align-items: flex-start;
+}
+
+.perfil-content.full-width {
+  grid-template-columns: 1fr;
+}
+
+/* Botones generales */
+.perfil-botones {
+  display: flex;
+  gap: 15px;
+  align-items: center;
+}
+
+.btn-editar, .btn-guardar, .btn-cancelar, .btn-cambiar-password {
+  padding: 12px 24px;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.btn-editar {
+  background: var(--primary);
+  color: var(--white);
+}
+
+.btn-editar:hover {
+  background: var(--primary-dark);
+  transform: translateY(-2px);
+}
+
+.btn-guardar {
+  background: var(--success);
+  color: var(--white);
+}
+
+.btn-guardar:hover:not(.disabled) {
+  background: #218838;
+  transform: translateY(-2px);
+}
+
+.btn-guardar.disabled {
+  background: var(--gray);
+  cursor: not-allowed;
+  opacity: 0.6;
+  transform: none;
+}
+
+.btn-cancelar {
+  background: var(--light-gray);
+  color: var(--dark);
+}
+
+.btn-cancelar:hover {
+  background: #d0d0d0;
+  transform: translateY(-2px);
+}
+
+/* Foto de perfil */
+.foto-perfil-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+.foto-perfil-wrapper {
+  position: relative;
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  border: 4px solid var(--white);
+}
+
+.foto-perfil {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.foto-perfil:hover {
+  transform: scale(1.05);
+}
+
+.btn-cambiar-foto {
+  position: absolute;
+  bottom: 15px;
+  right: 15px;
+  width: 45px;
+  height: 45px;
+  background: var(--primary);
+  color: var(--white);
+  border: none;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+}
+
+.btn-cambiar-foto:hover {
+  background: var(--primary-dark);
+  transform: scale(1.1);
+}
+
+.btn-cambiar-foto svg {
+  font-size: 1.2rem;
+}
+
+.foto-instructions {
+  text-align: center;
+  color: var(--dark-gray);
+  font-size: 0.9rem;
+  margin: 0;
+  font-style: italic;
+}
+
+/* Datos del perfil */
+.datos-perfil {
+  background: var(--white);
+  border-radius: 15px;
+  padding: 40px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  border: 1px solid var(--light-gray);
+}
+
+.campo-perfil {
+  margin-bottom: 30px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.campo-perfil:last-child {
+  margin-bottom: 0;
+}
+
+.campo-perfil label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--dark);
+  font-weight: 600;
+  font-size: 1rem;
+  margin-bottom: 5px;
+}
+
+.campo-perfil label svg {
+  color: var(--primary);
+  font-size: 1.1rem;
+}
+
+.campo-perfil p {
+  margin: 0;
+  padding: 12px 16px;
+  background: var(--light);
+  border-radius: 8px;
+  color: var(--dark);
+  font-size: 1rem;
+  border: 1px solid var(--light-gray);
+  min-height: 48px;
+  display: flex;
+  align-items: center;
+}
+
+.input-perfil {
+  padding: 12px 16px;
+  border: 2px solid var(--light-gray);
+  border-radius: 8px;
+  font-size: 1rem;
+  color: var(--dark);
+  background: var(--white);
+  transition: all 0.3s ease;
+  font-family: inherit;
+}
+
+.input-perfil:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(74, 108, 147, 0.1);
+}
+
+.textarea-perfil {
+  resize: vertical;
+  min-height: 100px;
+  line-height: 1.5;
+}
+
+/* Sección de seguridad */
+.seguridad-container {
+  background: var(--white);
+  border-radius: 15px;
+  padding: 40px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  border: 1px solid var(--light-gray);
+}
+
+.seguridad-container h3 {
+  color: var(--dark);
+  margin-bottom: 30px;
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+.campo-seguridad {
+  margin-bottom: 25px;
+}
+
+.campo-seguridad label {
+  display: block;
+  margin-bottom: 8px;
+  color: var(--dark);
+  font-weight: 600;
+  font-size: 1rem;
+}
+
+.password-input-container {
+  position: relative;
+}
+
+.btn-mostrar-password {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  color: var(--dark-gray);
+  cursor: pointer;
+  padding: 5px;
+  border-radius: 4px;
+  transition: color 0.3s ease;
+}
+
+.btn-mostrar-password:hover {
+  color: var(--primary);
+}
+
+.btn-cambiar-password {
+  background: var(--primary);
+  color: var(--white);
+  border: none;
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 20px;
+}
+
+.btn-cambiar-password:hover:not(:disabled) {
+  background: var(--primary-dark);
+  transform: translateY(-2px);
+}
+
+.btn-cambiar-password:disabled {
+  background: var(--gray);
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.consejos-seguridad {
+  margin-top: 30px;
+  padding: 20px;
+  background: var(--light);
+  border-radius: 8px;
+  border-left: 4px solid var(--primary);
+}
+
+.consejos-seguridad h4 {
+  color: var(--dark);
+  margin-bottom: 10px;
+}
+
+.consejos-seguridad ul {
+  color: var(--dark-gray);
+  padding-left: 20px;
+}
+
+.consejos-seguridad li {
+  margin-bottom: 5px;
+}
+
+/* Sección de notificaciones */
+.notificaciones-container {
+  background: var(--white);
+  border-radius: 15px;
+  padding: 40px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  border: 1px solid var(--light-gray);
+}
+
+.notificaciones-container h3 {
+  color: var(--dark);
+  margin-bottom: 30px;
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+.opcion-notificacion {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+  border-bottom: 1px solid var(--light-gray);
+  transition: background-color 0.3s ease;
+}
+
+.opcion-notificacion:hover {
+  background: var(--light);
+}
+
+.opcion-notificacion:last-child {
+  border-bottom: none;
+}
+
+.opcion-info h4 {
+  color: var(--dark);
+  margin: 0 0 5px 0;
+  font-size: 1rem;
+}
+
+.opcion-info p {
+  color: var(--dark-gray);
+  margin: 0;
+  font-size: 0.9rem;
+}
+
+.toggle-btn {
+  width: 50px;
+  height: 30px;
+  border: 2px solid var(--light-gray);
+  background: var(--white);
+  border-radius: 15px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  color: var(--dark-gray);
+}
+
+.toggle-btn.activo {
+  background: var(--success);
+  border-color: var(--success);
+  color: var(--white);
+}
+
+.toggle-btn:hover {
+  border-color: var(--primary);
+}
+
+/* Estado de solo lectura para campos no editables */
+.campo-perfil:last-child p {
+  background: #f8f9fa;
+  color: var(--dark-gray);
+  font-style: italic;
+}
+
+/* ==================== */
+/* RESPONSIVE PERFIL */
+/* ==================== */
+
+@media (max-width: 1024px) {
+  .perfil-content {
+    grid-template-columns: 250px 1fr;
+    gap: 40px;
+  }
+  
+  .foto-perfil-wrapper {
+    width: 180px;
+    height: 180px;
+  }
+  
+  .datos-perfil, .seguridad-container, .notificaciones-container {
+    padding: 30px;
+  }
+}
+
+@media (max-width: 768px) {
+  .perfil-container {
+    padding: 20px;
+  }
+  
+  .perfil-header {
+    flex-direction: column;
+    gap: 20px;
+    align-items: flex-start;
+  }
+  
+  .perfil-navegacion {
+    flex-direction: column;
+    gap: 5px;
+  }
+  
+  .perfil-content {
+    grid-template-columns: 1fr;
+    gap: 30px;
+    text-align: center;
+  }
+  
+  .foto-perfil-wrapper {
+    width: 160px;
+    height: 160px;
+    margin: 0 auto;
+  }
+  
+  .datos-perfil, .seguridad-container, .notificaciones-container {
+    padding: 25px;
+  }
+  
+  .perfil-botones {
+    width: 100%;
+    justify-content: center;
+  }
+  
+  .btn-editar, .btn-guardar, .btn-cancelar {
+    flex: 1;
+    justify-content: center;
+  }
+  
+  .opcion-notificacion {
+    flex-direction: column;
+    gap: 15px;
+    text-align: center;
+  }
+}
+
+@media (max-width: 576px) {
+  .perfil-container {
+    padding: 15px;
+  }
+  
+  .perfil-header h2 {
+    font-size: 1.5rem;
+  }
+  
+  .datos-perfil, .seguridad-container, .notificaciones-container {
+    padding: 20px;
+  }
+  
+  .campo-perfil {
+    margin-bottom: 25px;
+  }
+  
+  .campo-perfil label {
+    font-size: 0.9rem;
+  }
+  
+  .campo-perfil p,
+  .input-perfil {
+    font-size: 0.9rem;
+    padding: 10px 14px;
+  }
+  
+  .foto-perfil-wrapper {
+    width: 140px;
+    height: 140px;
+  }
+  
+  .btn-cambiar-foto {
+    width: 40px;
+    height: 40px;
+    bottom: 10px;
+    right: 10px;
+  }
+  
+  .perfil-botones {
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  .btn-editar, .btn-guardar, .btn-cancelar {
+    width: 100%;
+  }
+}
+
+/* Animaciones suaves */
+.perfil-content {
+  animation: fadeInUp 0.6s ease-out;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Efectos de hover mejorados */
+.campo-perfil p {
+  transition: all 0.3s ease;
+}
+
+.campo-perfil:hover p {
+  border-color: var(--primary-light);
+}
+
+/* Focus states para accesibilidad */
+.btn-editar:focus,
+.btn-guardar:focus,
+.btn-cancelar:focus,
+.input-perfil:focus,
+.btn-cambiar-foto:focus,
+.nav-btn:focus,
+.toggle-btn:focus {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}
