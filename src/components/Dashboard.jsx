@@ -7,7 +7,7 @@ import { CarritoContext } from "../context/CarritoContext";
 const Dashboard = () => {
   const [prendas, setPrendas] = useState([]);
   const [mostrarCarrito, setMostrarCarrito] = useState(false);
-  const { cartItems, setCartItems } = useContext(CarritoContext);
+  const { cartItems} = useContext(CarritoContext);
   const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
 
   useEffect(() => {
