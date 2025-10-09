@@ -6,7 +6,7 @@ export const CarritoProvider = ({ children }) => {
   const [cartItems, setCartItems] = useState([]);
 
   const API_URL = import.meta.env.VITE_API_URL || "http://localhost:5000";
-  const userId = "usuarioEjemplo"; // Deberías usar el ID real del usuario logueado
+  const userId = "6889c534a3c86fbe77ce6cd6"; // Deberías usar el ID real del usuario logueado
 
   // Cargar carrito desde backend al montar
   useEffect(() => {

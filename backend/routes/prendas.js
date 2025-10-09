@@ -1,7 +1,7 @@
 // routes/prendas.js
 const express = require("express");
 const router = express.Router();
-const Prenda = require("../models/Producto"); // o cambia a "../models/Producto" si tu modelo está ahí
+const Prenda = require("../models/Producto"); 
 
 // GET /api/prendas — listar todas
 router.get("/", async (req, res) => {
