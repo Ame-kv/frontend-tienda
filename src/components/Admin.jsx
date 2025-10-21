@@ -8,7 +8,8 @@ import {
   FiStar,
   FiChevronLeft,
   FiCheckSquare,
-  FiGrid
+  FiGrid,
+  FiBarChart2
 } from "react-icons/fi";
 import {
   Chart as ChartJS,
@@ -24,6 +25,7 @@ import RegularTables from "./RegularTables";
 import DataSettings from "./DataSettings";
 import "../styles/Admin.css";
 import Perfil from "./Perfil";
+import Reports from "./Reports";
 
 // Registrar componentes necesarios de Chart.js
 ChartJS.register(
@@ -201,6 +203,13 @@ const Admin = () => {
                 <FiGrid className="cf-menu-icon" />
                 <span className="cf-menu-text">Tablas</span>
               </li>
+              <li 
+                className={`cf-menu-item ${activeView === 'reports' ? 'active' : ''}`}
+                onClick={() => handleMenuClick('reports')}
+              >
+                <FiBarChart2 className="cf-menu-icon" />
+                <span className="cf-menu-text">Reportes</span>
+              </li>
             </ul>
           </div>
 
@@ -229,12 +238,14 @@ const Admin = () => {
         {activeView === 'elements' && 'Ajustes de Datos'}
         {activeView === 'regular-tables' && 'Tablas'}
         {activeView === 'perfil' && 'Perfil'}
+        {activeView === 'reports' && 'Reportes'}
       </h2>
       <p className="cf-subtitle">
-      
+        {activeView === 'dashboard' && 'Resumen general del negocio'}
         {activeView === 'elements' && 'Editar y gestionar productos'}
         {activeView === 'regular-tables' && 'Tablas y datos detallados'}
         {activeView === 'perfil' && 'Configuración de tu perfil'}
+        {activeView === 'reports' && 'Estadísticas y análisis detallados'}
       </p>
     </div>
   </div>
@@ -242,7 +253,7 @@ const Admin = () => {
         {/* Contenido dinámico */}
         <div className="cf-content-wrapper">
           {activeView === 'dashboard' && (
-            <>
+            <><br /> <br /> <br /> <br /> <br /> <br /> <br />
               <div className="cf-stats-grid">
                 {Object.entries(stats).map(([key, stat]) => (
                   <div key={key} className="cf-stat-card">
@@ -280,6 +291,7 @@ const Admin = () => {
           {activeView === 'elements' && <DataSettings />}
           {activeView === 'regular-tables' && <RegularTables />}
           {activeView === 'perfil' && <Perfil />}
+          {activeView === 'reports' && <Reports />}
         </div>
       </div>
     </div>
