@@ -1,5 +1,5 @@
 import React, { useState, useRef } from "react";
-import { FiUser, FiMail, FiPhone, FiMapPin, FiCamera, FiSave, FiAlertCircle } from "react-icons/fi";
+import { FiUser, FiMail, FiPhone, FiMapPin, FiCamera, FiSave, FiAlertCircle, FiEdit } from "react-icons/fi";
 import "../styles/Admin.css";
 import "../styles/Perfil.css";
 
@@ -17,7 +17,14 @@ const Perfil = () => {
   const [editando, setEditando] = useState(false);
   const [fotoPreview, setFotoPreview] = useState(null);
   const [cambiosPendientes, setCambiosPendientes] = useState(false);
+  const [datosOriginales, setDatosOriginales] = useState(null);
   const fileInputRef = useRef(null);
+
+  // Activar modo edición
+  const activarEdicion = () => {
+    setDatosOriginales({ ...usuario });
+    setEditando(true);
+  };
 
   // Manejar cambios en los campos de texto
   const handleChange = (e) => {
@@ -52,6 +59,7 @@ const Perfil = () => {
     
     setEditando(false);
     setCambiosPendientes(false);
+    setDatosOriginales(null);
     
     // Mostrar notificación de éxito
     alert("Los cambios se han guardado correctamente");
@@ -59,9 +67,14 @@ const Perfil = () => {
 
   // Función para cancelar la edición
   const handleCancelar = () => {
+    // Restaurar datos originales
+    if (datosOriginales) {
+      setUsuario(datosOriginales);
+    }
     setEditando(false);
     setFotoPreview(null);
     setCambiosPendientes(false);
+    setDatosOriginales(null);
   };
 
   // Activar el input de archivo
@@ -88,8 +101,8 @@ const Perfil = () => {
             </button>
           </div>
         ) : (
-          <button className="btn-editar" onClick={() => setEditando(true)}>
-            Editar Perfil
+          <button className="btn-editar" onClick={activarEdicion}>
+            <FiEdit /> Editar Perfil
           </button>
         )}
       </div>
@@ -210,20 +223,8 @@ const Perfil = () => {
 
           {editando && (
             <div className="campo-perfil">
-              <div style={{ 
-                padding: '15px', 
-                backgroundColor: 'rgba(74, 108, 147, 0.05)', 
-                borderRadius: '8px', 
-                border: '1px solid rgba(74, 108, 147, 0.2)',
-                marginTop: '10px'
-              }}>
-                <p style={{ 
-                  margin: 0, 
-                  fontSize: '0.9rem', 
-                  color: 'var(--dark-gray)',
-                  textAlign: 'center',
-                  fontStyle: 'italic'
-                }}>
+              <div className="editing-notice">
+                <p>
                   💡 Recuerda guardar los cambios cuando termines de editar
                 </p>
               </div>

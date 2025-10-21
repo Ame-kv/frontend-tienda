@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { FiEdit2, FiTrash2, FiImage, FiSave, FiX, FiCheckCircle, FiPlus } from "react-icons/fi";
+import "../styles/DataSettings.css";
 
 const DataSettings = () => {
   // Datos de ejemplo para productos
@@ -74,18 +75,26 @@ const DataSettings = () => {
   };
 
   const handleDelete = (id) => {
-    setProducts(products.filter(product => product.id !== id));
-    showNotification("Producto eliminado correctamente", "success");
+    if (window.confirm("¿Estás seguro de que quieres eliminar este producto?")) {
+      setProducts(products.filter(product => product.id !== id));
+      showNotification("Producto eliminado correctamente", "success");
+    }
   };
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setEditedProduct(prev => ({ ...prev, [name]: value }));
+    setEditedProduct(prev => ({ 
+      ...prev, 
+      [name]: name === 'price' ? parseFloat(value) || 0 : value 
+    }));
   };
 
   const handleNewProductChange = (e) => {
     const { name, value } = e.target;
-    setNewProduct(prev => ({ ...prev, [name]: value }));
+    setNewProduct(prev => ({ 
+      ...prev, 
+      [name]: name === 'price' || name === 'stock' ? parseFloat(value) || 0 : value 
+    }));
   };
 
   const handleImageChange = (e) => {
@@ -111,7 +120,12 @@ const DataSettings = () => {
   };
 
   const handleAddProduct = () => {
-    const newId = Math.max(...products.map(p => p.id)) + 1;
+    if (!newProduct.name || !newProduct.category) {
+      showNotification("Por favor completa todos los campos requeridos", "error");
+      return;
+    }
+
+    const newId = products.length > 0 ? Math.max(...products.map(p => p.id)) + 1 : 1;
     setProducts([...products, { ...newProduct, id: newId }]);
     setIsAddingNew(false);
     setNewProduct({
@@ -124,8 +138,28 @@ const DataSettings = () => {
     showNotification("Producto añadido correctamente", "success");
   };
 
+  const cancelAddProduct = () => {
+    setIsAddingNew(false);
+    setNewProduct({
+      name: "",
+      price: 0,
+      stock: 0,
+      category: "",
+      image: "https://via.placeholder.com/150"
+    });
+  };
+
+  // Función para determinar la clase del stock
+  const getStockClass = (stock) => {
+    if (stock < 10) return "low-stock";
+    if (stock < 25) return "medium-stock";
+    return "good-stock";
+  }; 
+
   return (
-    <div className="data-settings">
+     
+     
+     <div className="data-settings"> 
       <div className="data-settings-header">
         <h2 className="data-settings-title">Gestión de Productos</h2>
         <span className="products-count">{products.length} productos</span>
@@ -143,12 +177,12 @@ const DataSettings = () => {
         <table className="products-table">
           <thead>
             <tr>
-              <th>Imagen</th>
-              <th>Nombre</th>
-              <th>Precio</th>
-              <th>Stock</th>
-              <th>Categoría</th>
-              <th>Acciones</th>
+              <th>IMAGEN</th>
+              <th>NOMBRE</th>
+              <th>PRECIO</th>
+              <th>STOCK</th>
+              <th>CATEGORÍA</th>
+              <th>ACCIONES</th>
             </tr>
           </thead>
           <tbody>
@@ -165,7 +199,14 @@ const DataSettings = () => {
                       onChange={handleNewImageChange}
                       style={{ display: 'none' }}
                     />
-                    <img src={newProduct.image} alt="Preview" className="image-preview" />
+                    <img 
+                      src={newProduct.image} 
+                      alt="Preview" 
+                      className="image-preview" 
+                      onError={(e) => {
+                        e.target.src = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHZpZXdCb3g9IjAgMCA0MCA0MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9IjQwIiBoZWlnaHQ9IjQwIiBmaWxsPSIjRThFQ0VGIi8+CjxjaXJjbGUgY3g9IjIwIiBjeT0iMTYiIHI9IjgiIGZpbGw9IiM5QTk5OTkiLz48cGF0aCBkPSJNNiAzMkM2IDI5Ljc5IDkuNzkgMjggMTIgMjhIMjhDMzAuMjEgMjggMzQgMjkuNzkgMzQgMzJWMzRINlYzMloiIGZpbGw9IiM5QTk5OTkiLz4KPC9zdmc+';
+                      }}
+                    />
                   </label>
                 </td>
                 <td>
@@ -175,7 +216,7 @@ const DataSettings = () => {
                     value={newProduct.name}
                     onChange={handleNewProductChange}
                     className="edit-input"
-                    placeholder="Nombre"
+                    placeholder="Nombre del producto"
                   />
                 </td>
                 <td>
@@ -186,7 +227,8 @@ const DataSettings = () => {
                     onChange={handleNewProductChange}
                     className="edit-input"
                     step="0.01"
-                    placeholder="Precio"
+                    min="0"
+                    placeholder="0.00"
                   />
                 </td>
                 <td>
@@ -196,7 +238,8 @@ const DataSettings = () => {
                     value={newProduct.stock}
                     onChange={handleNewProductChange}
                     className="edit-input"
-                    placeholder="Stock"
+                    min="0"
+                    placeholder="0"
                   />
                 </td>
                 <td>
@@ -213,12 +256,14 @@ const DataSettings = () => {
                   <button 
                     onClick={handleAddProduct}
                     className="action-button save-button"
+                    title="Guardar producto"
                   >
                     <FiSave />
                   </button>
                   <button 
-                    onClick={() => setIsAddingNew(false)}
+                    onClick={cancelAddProduct}
                     className="action-button cancel-button"
+                    title="Cancelar"
                   >
                     <FiX />
                   </button>
@@ -244,7 +289,14 @@ const DataSettings = () => {
                         {newImage ? (
                           <img src={newImage} alt="Preview" className="image-preview" />
                         ) : (
-                          <img src={product.image} alt={product.name} className="image-preview" />
+                          <img 
+                            src={product.image} 
+                            alt={product.name} 
+                            className="image-preview"
+                            onError={(e) => {
+                              e.target.src = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHZpZXdCb3g9IjAgMCA0MCA0MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9IjQwIiBoZWlnaHQ9IjQwIiBmaWxsPSIjRThFQ0VGIi8+CjxjaXJjbGUgY3g9IjIwIiBjeT0iMTYiIHI9IjgiIGZpbGw9IiM5QTk5OTkiLz48cGF0aCBkPSJNNiAzMkM2IDI5Ljc5IDkuNzkgMjggMTIgMjhIMjhDMzAuMjEgMjggMzQgMjkuNzkgMzQgMzJWMzRINlYzMloiIGZpbGw9IiM5QTk5OTkiLz4KPC9zdmc+';
+                            }}
+                          />
                         )}
                       </label>
                     </td>
@@ -265,6 +317,7 @@ const DataSettings = () => {
                         onChange={handleInputChange}
                         className="edit-input"
                         step="0.01"
+                        min="0"
                       />
                     </td>
                     <td>
@@ -274,6 +327,7 @@ const DataSettings = () => {
                         value={editedProduct.stock || ''}
                         onChange={handleInputChange}
                         className="edit-input"
+                        min="0"
                       />
                     </td>
                     <td>
@@ -289,12 +343,14 @@ const DataSettings = () => {
                       <button 
                         onClick={() => handleSave(product.id)} 
                         className="action-button save-button"
+                        title="Guardar cambios"
                       >
                         <FiSave />
                       </button>
                       <button 
                         onClick={handleCancelEdit} 
                         className="action-button cancel-button"
+                        title="Cancelar edición"
                       >
                         <FiX />
                       </button>
@@ -303,22 +359,33 @@ const DataSettings = () => {
                 ) : (
                   <>
                     <td>
-                      <img src={product.image} alt={product.name} className="product-image" />
+                      <img 
+                        src={product.image} 
+                        alt={product.name} 
+                        className="product-image"
+                        onError={(e) => {
+                          e.target.src = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHZpZXdCb3g9IjAgMCA0MCA0MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9IjQwIiBoZWlnaHQ9IjQwIiBmaWxsPSIjRThFQ0VGIi8+CjxjaXJjbGUgY3g9IjIwIiBjeT0iMTYiIHI9IjgiIGZpbGw9IiM5QTk5OTkiLz48cGF0aCBkPSJNNiAzMkM2IDI5Ljc5IDkuNzkgMjggMTIgMjhIMjhDMzAuMjEgMjggMzQgMjkuNzkgMzQgMzJWMzRINlYzMloiIGZpbGw9IiM5QTk5OTkiLz4KPC9zdmc+';
+                        }}
+                      />
                     </td>
                     <td className="product-name">{product.name}</td>
                     <td className="product-price">${product.price.toFixed(2)}</td>
-                    <td className="product-stock">{product.stock}</td>
+                    <td className={`product-stock ${getStockClass(product.stock)}`}>
+                      {product.stock}
+                    </td>
                     <td className="product-category">{product.category}</td>
                     <td className="actions-cell">
                       <button 
                         onClick={() => handleEdit(product)} 
                         className="action-button edit-button"
+                        title="Editar producto"
                       >
                         <FiEdit2 />
                       </button>
                       <button 
                         onClick={() => handleDelete(product.id)} 
                         className="action-button delete-button"
+                        title="Eliminar producto"
                       >
                         <FiTrash2 />
                       </button>
@@ -334,6 +401,7 @@ const DataSettings = () => {
       <button 
         className="add-product-button"
         onClick={() => setIsAddingNew(true)}
+        disabled={isAddingNew}
       >
         <FiPlus /> Añadir Nuevo Producto
       </button>
