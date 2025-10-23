@@ -1,8 +1,19 @@
+/* ===== REPORTS CSS OPTIMIZADO PARA PDF ===== */
+
 .reports-view {
   padding: 20px;
-  background-color: #f8f9fa;
+  background-color: #ffffff; /* Fondo blanco para mejor impresión */
   min-height: 100vh;
-  margin: 140px 20px 20px;
+  margin: 910px 20px 20px; /* Margen corregido - era 1040px */
+  /* Estilos específicos para PDF */
+  box-sizing: border-box;
+}
+
+/* Estilos que se aplican solo en pantalla (no en PDF) */
+@media screen {
+  .reports-view {
+    background-color: #f8f9fa;
+  }
 }
 
 .reports-header {
@@ -14,12 +25,15 @@
   background: white;
   border-radius: 12px;
   box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+  /* Mejorar para PDF */
+  border: 1px solid #e9ecef;
 }
 
 .reports-header h1 {
   color: #2c3e50;
   margin: 0;
   font-size: 28px;
+  font-weight: 700;
 }
 
 .report-controls {
@@ -34,6 +48,8 @@
   border-radius: 8px;
   background: white;
   font-size: 14px;
+  /* Mejor contraste para PDF */
+  border: 2px solid #e9ecef;
 }
 
 .date-range {
@@ -47,47 +63,69 @@
   border: 1px solid #ddd;
   border-radius: 6px;
   font-size: 14px;
+  /* Mejor contraste para PDF */
+  border: 2px solid #e9ecef;
 }
 
-/* Estilos para los botones de exportación */
+/* ESTILOS MEJORADOS PARA BOTÓN DE DESCARGA PDF */
 .export-buttons {
   display: flex;
   gap: 10px;
 }
 
 .export-btn {
-  padding: 10px 20px;
+  padding: 12px 24px; /* Tamaño consistente */
   border: none;
   border-radius: 8px;
   cursor: pointer;
   font-size: 14px;
-  transition: background 0.3s;
+  transition: all 0.3s;
   display: flex;
   align-items: center;
   gap: 8px;
+  font-weight: 600;
+  min-width: 160px; /* Ancho mínimo consistente */
+  justify-content: center;
+  /* Mejor contraste */
+  border: 2px solid transparent;
+  text-decoration: none;
 }
 
 .export-btn.pdf {
   background: #e74c3c;
   color: white;
+  border-color: #c0392b;
 }
 
 .export-btn.pdf:hover {
   background: #c0392b;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(231, 76, 60, 0.3);
 }
 
 .export-btn.pdf:disabled {
   background: #95a5a6;
+  border-color: #7f8c8d;
   cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
 }
 
+/* Ocultar CSV y mantener solo PDF */
 .export-btn.csv {
-  background: #27ae60;
-  color: white;
+  display: none; /* Eliminar botón CSV */
 }
 
-.export-btn.csv:hover {
-  background: #219a52;
+/* Ocultar botones en PDF */
+@media print {
+  .export-buttons {
+    display: none !important;
+  }
+  
+  .report-controls select,
+  .report-controls input {
+    display: none !important;
+  }
 }
 
 /* Spinner de carga */
@@ -106,12 +144,13 @@
   100% { transform: rotate(360deg); }
 }
 
-/* Métricas Principales */
+/* Métricas Principales - CORREGIDO PARA 4 EN LÍNEA */
 .metrics-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  grid-template-columns: repeat(4, 1fr); /* 4 columnas iguales */
   gap: 20px;
   margin-bottom: 30px;
+  align-items: stretch;
 }
 
 .metric-card {
@@ -123,44 +162,102 @@
   align-items: center;
   gap: 15px;
   transition: transform 0.3s;
-}
-
-.metric-card:hover {
-  transform: translateY(-5px);
+  /* Mejorar para PDF */
+  border: 1px solid #e9ecef;
+  page-break-inside: avoid; /* Evitar que se corte en PDF */
+  height: 100%; /* Asegurar misma altura */
+  min-height: 120px; /* Altura mínima consistente */
 }
 
 .metric-icon {
-  font-size: 32px;
-  width: 60px;
-  height: 60px;
+  font-size: 28px; /* Ligeramente más pequeño */
+  width: 50px;
+  height: 50px;
   display: flex;
   align-items: center;
   justify-content: center;
   background: #f8f9fa;
   border-radius: 10px;
+  /* Mejor contraste para PDF */
+  border: 1px solid #e9ecef;
+  flex-shrink: 0; /* Evitar que se encoja */
+}
+
+.metric-info {
+  flex: 1;
+  min-width: 0; /* Permitir que el texto se ajuste */
 }
 
 .metric-info h3 {
-  margin: 0 0 5px 0;
+  margin: 0 0 8px 0;
   color: #7f8c8d;
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .metric-value {
-  margin: 0 0 5px 0;
-  font-size: 24px;
+  margin: 0 0 6px 0;
+  font-size: 22px;
   font-weight: 700;
   color: #2c3e50;
+  line-height: 1.2;
 }
 
 .metric-change {
-  font-size: 12px;
+  font-size: 11px;
   font-weight: 600;
+  display: block;
 }
 
 .metric-change.positive {
   color: #27ae60;
+}
+
+/* Responsive para mantener 4 en línea en diferentes pantallas */
+@media (max-width: 1200px) {
+  .metrics-grid {
+    grid-template-columns: repeat(2, 1fr); /* 2 columnas en tablets */
+  }
+}
+
+@media (max-width: 768px) {
+  .metrics-grid {
+    grid-template-columns: 1fr; /* 1 columna en móviles */
+    gap: 15px;
+  }
+  
+  .metric-card {
+    padding: 20px;
+    min-height: 100px;
+  }
+  
+  .metric-icon {
+    width: 45px;
+    height: 45px;
+    font-size: 24px;
+  }
+  
+  .metric-value {
+    font-size: 20px;
+  }
+}
+
+/* Asegurar que en PDF también se vean en línea */
+@media print {
+  .metrics-grid {
+    grid-template-columns: repeat(4, 1fr) !important;
+    gap: 15px !important;
+  }
+  
+  .metric-card {
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
 }
 
 /* Secciones de Reporte */
@@ -168,6 +265,8 @@
   display: grid;
   grid-template-columns: 2fr 1fr;
   gap: 25px;
+  /* Para PDF */
+  page-break-inside: avoid;
 }
 
 .report-section {
@@ -176,6 +275,10 @@
   border-radius: 12px;
   box-shadow: 0 2px 10px rgba(0,0,0,0.1);
   margin-bottom: 25px;
+  /* Mejorar para PDF */
+  border: 1px solid #e9ecef;
+  page-break-inside: avoid;
+  break-inside: avoid;
 }
 
 .section-header {
@@ -183,12 +286,15 @@
   justify-content: space-between;
   align-items: center;
   margin-bottom: 20px;
+  padding-bottom: 15px;
+  border-bottom: 2px solid #f8f9fa;
 }
 
 .section-header h2 {
   margin: 0;
   color: #2c3e50;
   font-size: 20px;
+  font-weight: 700;
 }
 
 .section-badge {
@@ -211,6 +317,7 @@
   gap: 30px;
   height: 200px;
   padding: 20px 0;
+  justify-content: space-around;
 }
 
 .chart-bar {
@@ -218,6 +325,7 @@
   flex-direction: column;
   align-items: center;
   flex: 1;
+  max-width: 80px;
 }
 
 .bar-fill {
@@ -226,11 +334,14 @@
   border-radius: 6px 6px 0 0;
   min-height: 20px;
   transition: height 0.3s;
+  /* Mejor contraste para PDF */
+  border: 1px solid #2980b9;
 }
 
 .bar-label {
   margin-top: 10px;
   text-align: center;
+  width: 100%;
 }
 
 .bar-amount {
@@ -245,40 +356,59 @@
   font-size: 11px;
   color: #7f8c8d;
   margin: 2px 0;
+  font-weight: 500;
 }
 
 .bar-growth {
   display: block;
   font-size: 10px;
   font-weight: 600;
+  padding: 2px 6px;
+  border-radius: 10px;
+  background: #f8f9fa;
 }
 
 .bar-growth.positive {
   color: #27ae60;
+  background: rgba(39, 174, 96, 0.1);
 }
 
 .bar-growth.negative {
   color: #e74c3c;
+  background: rgba(231, 76, 60, 0.1);
 }
 
 /* Tabla de Productos */
 .report-table {
   width: 100%;
   border-collapse: collapse;
+  border: 1px solid #e9ecef;
+  border-radius: 8px;
+  overflow: hidden;
+  /* Mejorar para PDF */
+  page-break-inside: avoid;
 }
 
 .report-table th {
   background: #f8f9fa;
-  padding: 12px;
+  padding: 12px 15px;
   text-align: left;
-  font-weight: 600;
+  font-weight: 700;
   color: #2c3e50;
   border-bottom: 2px solid #e9ecef;
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 
 .report-table td {
-  padding: 12px;
+  padding: 12px 15px;
   border-bottom: 1px solid #e9ecef;
+  font-size: 14px;
+}
+
+.report-table tr:last-child td {
+  border-bottom: none;
 }
 
 .product-name {
@@ -288,24 +418,33 @@
 
 .sales-count {
   color: #7f8c8d;
+  font-weight: 500;
 }
 
 .revenue-amount {
-  font-weight: 600;
+  font-weight: 700;
   color: #27ae60;
 }
 
 .growth-indicator {
   font-weight: 600;
   font-size: 14px;
+  padding: 4px 8px;
+  border-radius: 12px;
+  background: #f8f9fa;
+  display: inline-block;
+  min-width: 60px;
+  text-align: center;
 }
 
 .growth-indicator.positive {
   color: #27ae60;
+  background: rgba(39, 174, 96, 0.1);
 }
 
 .growth-indicator.negative {
   color: #e74c3c;
+  background: rgba(231, 76, 60, 0.1);
 }
 
 /* Métricas de Clientes */
@@ -320,12 +459,16 @@
   padding: 20px;
   background: #f8f9fa;
   border-radius: 10px;
+  border: 1px solid #e9ecef;
 }
 
 .customer-metric h4 {
   margin: 0 0 10px 0;
   color: #7f8c8d;
   font-size: 14px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 
 .metric-number {
@@ -338,6 +481,7 @@
 .metric-desc {
   font-size: 12px;
   color: #95a5a6;
+  font-weight: 500;
 }
 
 /* Resumen Financiero */
@@ -345,6 +489,10 @@
   display: flex;
   flex-direction: column;
   gap: 15px;
+  background: #f8f9fa;
+  padding: 20px;
+  border-radius: 10px;
+  border: 1px solid #e9ecef;
 }
 
 .financial-item {
@@ -358,11 +506,16 @@
   border-top: 2px solid #e9ecef;
   padding-top: 20px;
   margin-top: 10px;
+  background: white;
+  margin: -10px -20px -20px -20px;
+  padding: 20px;
+  border-radius: 0 0 10px 10px;
 }
 
 .financial-label {
   color: #7f8c8d;
-  font-weight: 500;
+  font-weight: 600;
+  font-size: 14px;
 }
 
 .financial-value {
@@ -391,6 +544,36 @@
   height: 1px;
   background: #e9ecef;
   margin: 10px 0;
+}
+
+/* Estilos específicos para PDF */
+@media print {
+  .reports-view {
+    margin: 0;
+    padding: 20px;
+    background: white;
+  }
+  
+  .metric-card,
+  .report-section {
+    box-shadow: none;
+    border: 2px solid #e9ecef;
+    margin-bottom: 20px;
+  }
+  
+  /* Asegurar buen contraste en impresión */
+  .metric-value,
+  .financial-value,
+  .bar-amount {
+    color: #000000 !important;
+    font-weight: 800;
+  }
+}
+
+/* Mejoras para la generación de PDF */
+.reports-view * {
+  -webkit-print-color-adjust: exact !important;
+  color-adjust: exact !important;
 }
 
 /* Responsive */
@@ -428,13 +611,12 @@
     width: 30px;
   }
   
-  /* Responsive para botones de exportación */
   .export-buttons {
-    flex-direction: column;
     width: 100%;
   }
   
   .export-btn {
+    width: 100%;
     justify-content: center;
   }
   
@@ -446,4 +628,31 @@
   .date-range {
     justify-content: center;
   }
+  
+  /* Ajustes para móviles en PDF */
+  @media print and (max-width: 768px) {
+    .reports-content {
+      grid-template-columns: 1fr;
+    }
+    
+    .metrics-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+}
+
+/* Clase para cuando se está generando el PDF */
+.pdf-generating {
+  pointer-events: none;
+}
+
+.pdf-generating .export-btn {
+  opacity: 0.7;
+}
+
+/* Mejora para los bordes en PDF */
+.report-table,
+.metric-card,
+.report-section {
+  border: 1px solid #e9ecef;
 }
