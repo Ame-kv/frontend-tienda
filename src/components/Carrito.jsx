@@ -1,24 +1,30 @@
-import React, { useState, useEffect } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../styles/Carrito.css";
 import { FaArrowLeft, FaTrash, FaPlus, FaMinus, FaLock } from "react-icons/fa";
+import { CarritoContext } from "../context/CarritoContext";
 
-const Carrito = ({ cartItems, setCartItems, onProceedToPago, onBack }) => {
+const Carrito = ({ onProceedToPago, onBack }) => {
+  const { cartItems, setCartItems, agregarAlCarrito } = useContext(CarritoContext);
   const [selectedItems, setSelectedItems] = useState([]);
+
+  // Sincronizar cantidades locales
   const [items, setItems] = useState([]);
 
-  // Sincronizar estado local items con cartItems del padre
   useEffect(() => {
-    setItems(cartItems.map(item => ({ ...item, quantity: item.quantity || 1 })));
+    setItems(cartItems.map(item => ({
+      ...item,
+      quantity: item.cantidad || 1,
+    })));
   }, [cartItems]);
 
-  // Calcular totales
+  // Totales
   const subtotal = items.reduce((sum, item) => sum + (item.precio * item.quantity), 0);
   const shipping = 5.0;
   const total = subtotal + shipping;
   const missingForFreeShipping = Math.max(0, 6 - subtotal);
 
-  // Manejar selección de items
+  // Selección de items
   const handleSelectAll = (e) => {
     setSelectedItems(e.target.checked ? items.map(item => item.id) : []);
   };
@@ -31,45 +37,47 @@ const Carrito = ({ cartItems, setCartItems, onProceedToPago, onBack }) => {
     );
   };
 
-  // Manejar cantidad de items (local, no backend)
-  const handleQuantityChange = (id, change) => {
-    setItems(prev =>
-      prev.map(item =>
-        item.id === id
-          ? { ...item, quantity: Math.max(1, item.quantity + change) }
-          : item
-      )
-    );
+  // Cambiar cantidad de producto y sincronizar con backend
+  const handleQuantityChange = async (item, change) => {
+    const nuevaCantidad = Math.max(1, item.quantity + change);
+    setItems(prev => prev.map(i =>
+      i.id === item.id ? { ...i, quantity: nuevaCantidad } : i
+    ));
+    // Actualizar en backend
+    await agregarAlCarrito(item.id, item.talla, nuevaCantidad);
   };
 
-  // Eliminar productos en backend y actualizar estado local
-  const eliminarProductoDelCarrito = async (productoId) => {
-    const userId = "usuarioEjemplo"; // Cambia esto por usuario real (auth)
+  // Eliminar un producto
+  const eliminarProducto = async (itemId) => {
     try {
-      const res = await fetch(`http://localhost:5000/api/carrito/${userId}/${productoId}`, {
+      const API_URL = import.meta.env.VITE_API_URL || "http://localhost:5000";
+      const userId = "688b2cd326dcdb2466dc5c66"; // mismo que en contexto
+      const res = await fetch(`${API_URL}/api/carrito/${userId}/${itemId}`, {
         method: "DELETE",
       });
       if (!res.ok) throw new Error("Error al eliminar producto");
 
       const data = await res.json();
-      // Mapear la respuesta para actualizar estado del carrito
-      const nuevosItems = data.items.map(item => ({
-        id: item.productoId._id,
-        nombre: item.productoId.nombre,
-        precio: item.productoId.precio,
-        imagen: item.productoId.imagen,
-        talla: item.talla,
-        quantity: item.cantidad,
-      }));
+      const nuevosItems = data.items
+        .filter(item => item.productoId)
+        .map(item => ({
+          id: item.productoId._id,
+          nombre: item.productoId.nombre,
+          precio: item.productoId.precio,
+          imagen: item.productoId.imagen,
+          talla: item.talla,
+          quantity: item.cantidad,
+        }));
+
       setCartItems(nuevosItems);
-    } catch (error) {
-      console.error(error);
+    } catch (err) {
+      console.error(err);
     }
   };
 
-  // Eliminar items seleccionados (localmente solo, o podrías hacer llamada backend similar)
+  // Eliminar seleccionados
   const handleDeleteSelected = () => {
-    selectedItems.forEach(id => eliminarProductoDelCarrito(id));
+    selectedItems.forEach(id => eliminarProducto(id));
     setSelectedItems([]);
   };
 
@@ -113,11 +121,7 @@ const Carrito = ({ cartItems, setCartItems, onProceedToPago, onBack }) => {
                     onChange={() => handleItemSelect(item.id)}
                   />
                 </div>
-                <img
-                  src={item.imagen}
-                  alt={item.nombre}
-                  className="carrito-item-image"
-                />
+                <img src={item.imagen} alt={item.nombre} className="carrito-item-image" />
                 <div className="carrito-item-details">
                   <h3>{item.nombre}</h3>
                   <p className="carrito-item-meta">
@@ -127,13 +131,13 @@ const Carrito = ({ cartItems, setCartItems, onProceedToPago, onBack }) => {
                   </p>
                   <div className="quantity-selector">
                     <button
-                      onClick={() => handleQuantityChange(item.id, -1)}
+                      onClick={() => handleQuantityChange(item, -1)}
                       disabled={item.quantity <= 1}
                     >
                       <FaMinus />
                     </button>
                     <span>{item.quantity}</span>
-                    <button onClick={() => handleQuantityChange(item.id, 1)}>
+                    <button onClick={() => handleQuantityChange(item, 1)}>
                       <FaPlus />
                     </button>
                   </div>
@@ -144,7 +148,7 @@ const Carrito = ({ cartItems, setCartItems, onProceedToPago, onBack }) => {
                 <button
                   className="btn btn-danger btn-sm"
                   style={{ marginLeft: '10px' }}
-                  onClick={() => eliminarProductoDelCarrito(item.id)}
+                  onClick={() => eliminarProducto(item.id)}
                 >
                   <FaTrash /> Eliminar
                 </button>
@@ -179,20 +183,9 @@ const Carrito = ({ cartItems, setCartItems, onProceedToPago, onBack }) => {
             <p className="secure-checkout">
               <FaLock /> Pago seguro cifrado SSL
             </p>
-            {/* Nuevo botón "Seguir Comprando" */}
             <button className="btn-seguir-comprando-carrito" onClick={onBack}>
               Seguir comprando
             </button>
-          </div>
-
-          <div className="carrito-promociones">
-            <h4>Ofertas especiales</h4>
-            <div className="promo-item">
-              <span className="promo-badge"> Hot</span>
-              <p>
-                <strong>Termina el 19 de Agosto:</strong> Gasta $6 más y obtén envío gratis
-              </p>
-            </div>
           </div>
         </>
       ) : (
@@ -205,24 +198,6 @@ const Carrito = ({ cartItems, setCartItems, onProceedToPago, onBack }) => {
           </button>
         </div>
       )}
-
-      <div className="carrito-garantias">
-        <h4>Compra con confianza</h4>
-        <ul>
-          <li>
-            <span className="guarantee-icon">✓</span>
-            <span>Devoluciones fáciles en 30 días</span>
-          </li>
-          <li>
-            <span className="guarantee-icon">✓</span>
-            <span>Garantía del producto de 1 año</span>
-          </li>
-          <li>
-            <span className="guarantee-icon">✓</span>
-            <span>Pagos 100% seguros</span>
-          </li>
-        </ul>
-      </div>
     </div>
   );
 };

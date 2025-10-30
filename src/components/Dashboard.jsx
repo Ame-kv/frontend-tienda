@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useContext } from "react";
-import { Link } from "react-router-dom"; 
+import { Link, useNavigate } from "react-router-dom"; 
 import { FaShoppingCart } from "react-icons/fa";
 import Carrito from "./Carrito";
 import { CarritoContext } from "../context/CarritoContext";
@@ -7,8 +7,9 @@ import { CarritoContext } from "../context/CarritoContext";
 const Dashboard = () => {
   const [prendas, setPrendas] = useState([]);
   const [mostrarCarrito, setMostrarCarrito] = useState(false);
-  const { cartItems, setCartItems } = useContext(CarritoContext);
+  const { cartItems } = useContext(CarritoContext);
   const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+  const navigate = useNavigate(); // ✅ Para navegar al panel admin
 
   useEffect(() => {
     fetch(`${API_URL}/api/prendas`)
@@ -27,14 +28,34 @@ const Dashboard = () => {
         style={{ flexShrink: 0, backgroundColor: "white", zIndex: 10 }}
       >
         <h1 className="text-center m-0">ClothesFever</h1>
-        <button
-          onClick={() => setMostrarCarrito(true)}
-          style={{ fontSize: "24px", cursor: "pointer", background: "none", border: "none" }}
-          aria-label="Ver carrito"
-        >
-          <FaShoppingCart />
-          <span> ({cartItems.length})</span>
-        </button>
+
+        <div className="d-flex align-items-center gap-3">
+          {/* ✅ Mostrar el botón solo cuando el carrito NO está visible */}
+          {!mostrarCarrito && (
+            <button
+              onClick={() => navigate("/admin")}
+              className="btn btn-outline-primary"
+              style={{ fontWeight: "bold" }}
+            >
+              Panel Admin
+            </button>
+          )}
+
+          {/* Botón del carrito */}
+          <button
+            onClick={() => setMostrarCarrito(true)}
+            style={{
+              fontSize: "24px",
+              cursor: "pointer",
+              background: "none",
+              border: "none"
+            }}
+            aria-label="Ver carrito"
+          >
+            <FaShoppingCart />
+            <span> ({cartItems.length})</span>
+          </button>
+        </div>
       </header>
 
       {mostrarCarrito ? (

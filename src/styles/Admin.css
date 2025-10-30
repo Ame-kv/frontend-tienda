@@ -43,8 +43,8 @@ html, body {
 .cf-sidebar {
   width: 280px;
   min-width: 280px;
-  background: #e07c6a; 
-  color: white; /* Cambiado a blanco */
+  background: #E6F5FA; 
+  color: black; /* Cambiado a blanco */
   height: 100vh;
   position: fixed;
   left: 0;
@@ -58,11 +58,11 @@ html, body {
   border-bottom: 1px solid #2d3345;
   position: sticky;
   top: 0;
-  background: #d6967c; 
+  background: #CADAE3; 
 }
 
 .cf-sidebar-header h1 {
-  color: white; /* Cambiado a blanco */
+  color: black; /* Cambiado a blanco */
   font-size: 1.5rem;
   margin-bottom: 5px;
   white-space: nowrap;
@@ -86,7 +86,7 @@ html, body {
 }
 
 .cf-menu-title, .cf-menu-category {
-  color: white; /* Cambiado a blanco */
+  color: black; /* Cambiado a blanco */
   font-size: 0.75rem;
   text-transform: uppercase;
   letter-spacing: 1px;

@@ -4,6 +4,10 @@ const cors = require("cors");
 const admin = require("firebase-admin");
 const mongoose = require("mongoose");
 
+const authGoogleRouter = require("./routes/authGoogle");
+const authRoutes = require("./routes/authRoutes");
+const carritoRouter = require("./routes/carrito");
+
 const app = express();
 const PORT = process.env.PORT || 5000;
 
@@ -12,6 +16,7 @@ const PORT = process.env.PORT || 5000;
 // ---------------------------
 app.use(cors());
 app.use(express.json());
+
 
 // ---------------------------
 // Inicializar Firebase Admin
@@ -59,16 +64,31 @@ app.get("/perfil", verifyFirebaseToken, (req, res) => {
 // Rutas de API
 // ---------------------------
 // Autenticación normal
-const authRoutes = require("./routes/authRoutes");
+
 app.use("/api/auth", authRoutes);
 
 // Autenticación con Google
-const authGoogleRouter = require("./routes/authGoogle");
+
 app.use("/api/auth/google", authGoogleRouter);
 
 // Carrito
-const carritoRouter = require("./routes/carrito");
+
 app.use("/api/carrito", carritoRouter);
+
+// Rutas
+const prendasRoutes = require("./routes/prendas");
+app.use("/api/prendas", prendasRoutes);
+
+// ---------------------------
+// Conexión a MongoDB
+// ---------------------------
+mongoose.connect(process.env.MONGO_URI, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+})
+.then(() => console.log("Conectado a MongoDB"))
+.catch(err => console.error(" Error al conectar MongoDB:", err));
+
 
 // ---------------------------
 // Servidor
