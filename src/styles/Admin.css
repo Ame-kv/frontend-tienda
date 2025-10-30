@@ -129,13 +129,8 @@ html, body {
 .cf-sidebar {
   width: 280px;
   min-width: 280px;
-<<<<<<< HEAD
-  background: #E6F5FA; 
-  color: black; /* Cambiado a blanco */
-=======
   background: linear-gradient(180deg, var(--white) 0%, var(--light) 100%);
   color: var(--dark);
->>>>>>> origin/juddy2
   height: 100vh;
   position: fixed;
   left: 0;
@@ -156,13 +151,6 @@ html, body {
   border-bottom: 1px solid var(--light-gray);
   position: sticky;
   top: 0;
-<<<<<<< HEAD
-  background: #CADAE3; 
-}
-
-.cf-sidebar-header h1 {
-  color: black; /* Cambiado a blanco */
-=======
   background: var(--white);
   z-index: 10;
   min-height: 100px; /* Altura fija para igualar con el header principal */
@@ -173,7 +161,6 @@ html, body {
 
 .cf-sidebar-header h1 {
   color: var(--primary);
->>>>>>> origin/juddy2
   font-size: 1.5rem;
   margin-bottom: 5px;
   white-space: nowrap;
@@ -204,11 +191,7 @@ html, body {
 }
 
 .cf-menu-title, .cf-menu-category {
-<<<<<<< HEAD
-  color: black; /* Cambiado a blanco */
-=======
   color: var(--dark-gray);
->>>>>>> origin/juddy2
   font-size: 0.75rem;
   text-transform: uppercase;
   letter-spacing: 1px;

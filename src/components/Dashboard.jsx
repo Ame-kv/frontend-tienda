@@ -7,13 +7,9 @@ import { CarritoContext } from "../context/CarritoContext";
 const Dashboard = () => {
   const [prendas, setPrendas] = useState([]);
   const [mostrarCarrito, setMostrarCarrito] = useState(false);
-<<<<<<< HEAD
   const { cartItems } = useContext(CarritoContext);
-=======
-  const { cartItems} = useContext(CarritoContext);
->>>>>>> origin/juddy2
   const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
-  const navigate = useNavigate(); // ✅ Para navegar al panel admin
+  const navigate = useNavigate(); // Para navegar al panel admin
 
   useEffect(() => {
     fetch(`${API_URL}/api/prendas`)
