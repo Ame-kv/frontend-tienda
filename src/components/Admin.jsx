@@ -14,7 +14,11 @@ import {
   FiExternalLink,
   FiPackage,
   FiUserPlus,
-  FiRefreshCw
+  FiRefreshCw,
+  FiCheck,
+  FiZap,
+  FiAward,
+  FiCalendar
 } from "react-icons/fi";
 import {
   Chart as ChartJS,
@@ -31,6 +35,7 @@ import DataSettings from "./DataSettings";
 import "../styles/Admin.css";
 import Perfil from "./Perfil";
 import Reports from "./Reports";
+import Subscriptions from "./Subscriptions";
 
 // Registrar componentes necesarios de Chart.js
 ChartJS.register(
@@ -42,6 +47,7 @@ ChartJS.register(
   Tooltip,
   Legend
 );
+
 
 const Admin = () => {
   const [activeView, setActiveView] = useState("dashboard");
@@ -354,6 +360,14 @@ const Admin = () => {
                 <FiBarChart2 className="cf-menu-icon" />
                 <span className="cf-menu-text">Reportes</span>
               </li>
+              {/* NUEVO ITEM DE SUSCRIPCIONES */}
+              <li 
+                className={`cf-menu-item ${activeView === 'subscriptions' ? 'active' : ''}`}
+                onClick={() => handleMenuClick('subscriptions')}
+              >
+                <FiDollarSign className="cf-menu-icon" />
+                <span className="cf-menu-text">Suscripciones</span>
+              </li>
             </ul>
           </div>
 
@@ -381,6 +395,7 @@ const Admin = () => {
               {activeView === 'regular-tables' && 'Tablas'}
               {activeView === 'perfil' && 'Perfil'}
               {activeView === 'reports' && 'Reportes'}
+              {activeView === 'subscriptions' && 'Suscripciones'} {/* NUEVO */}
             </h2>
             <p className="cf-subtitle">
               {activeView === 'dashboard' && 'Resumen general del negocio'}
@@ -388,6 +403,7 @@ const Admin = () => {
               {activeView === 'regular-tables' && 'Tablas y datos detallados'}
               {activeView === 'perfil' && 'Configuración de tu perfil'}
               {activeView === 'reports' && 'Estadísticas y análisis detallados'}
+              {activeView === 'subscriptions' && 'Planes y paquetes de renta'} {/* NUEVO */}
             </p>
           </div>
           
@@ -410,7 +426,6 @@ const Admin = () => {
                 <div className="cf-notifications-header">
                   <h3>Notificaciones</h3>
                   <div className="cf-notifications-actions">
-                    {/* BOTÓN ELIMINADO - SOLO QUEDA EL BOTÓN DE CERRAR */}
                     <button 
                       className="cf-close-notifications"
                       onClick={toggleNotifications}
@@ -477,7 +492,7 @@ const Admin = () => {
 
         <div className="cf-content-wrapper">
           {activeView === 'dashboard' && (
-            <><br /> <br /> <br /> <br /> <br /> <br /> <br />
+            <><br /> <br /> 
               <div className="cf-stats-grid">
                 {Object.entries(stats).map(([key, stat]) => (
                   <div key={key} className="cf-stat-card">
@@ -515,6 +530,7 @@ const Admin = () => {
           {activeView === 'regular-tables' && <RegularTables />}
           {activeView === 'perfil' && <Perfil />}
           {activeView === 'reports' && <Reports />}
+          {activeView === 'subscriptions' && <Subscriptions />} {/* NUEVO */}
         </div>
       </div>
     </div>

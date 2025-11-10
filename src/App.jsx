@@ -17,7 +17,7 @@ function App() {
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/admin" element={<Admin />} />
         <Route path="/prenda/:id" element={<PrendaDetalle />} />
-        <Route path="/carrito" element={<CarritoYPago />} />  {/* YA DENME EL TÍTULO */}
+        <Route path="/carrito" element={<CarritoYPago />} />  
       </Routes>
     </Router>
   );

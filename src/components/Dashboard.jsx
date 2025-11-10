@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { FaShoppingCart } from "react-icons/fa";
 import Carrito from "./Carrito";
 import { CarritoContext } from "../context/CarritoContext";
+import "../styles/Dashboard.css"
 
 const Dashboard = () => {
   const [prendas, setPrendas] = useState([]);
