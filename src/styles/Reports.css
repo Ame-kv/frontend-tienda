@@ -4,7 +4,7 @@
   padding: 20px;
   background-color: #ffffff; /* Fondo blanco para mejor impresión */
   min-height: 100vh;
-  margin: 910px 20px 20px; /* Margen corregido - era 1040px */
+  margin: 10px 20px 20px; /* Margen corregido - era 1040px */
   /* Estilos específicos para PDF */
   box-sizing: border-box;
 }
