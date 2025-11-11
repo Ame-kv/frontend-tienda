@@ -9,12 +9,13 @@ const PaymentSection = ({ selectedPlan, onBack, onPaymentComplete }) => {
   const [expiryDate, setExpiryDate] = useState("");
   const [cvv, setCvv] = useState("");
   const [name, setName] = useState("");
-  const [oxxoReference, setOxxoReference] = useState(generateOxxoReference());
-
+  
   // Función para generar referencia OXXO
-  function generateOxxoReference() {
+  const generateOxxoReference = () => {
     return Math.random().toString(36).substring(2, 10).toUpperCase();
-  }
+  };
+  
+  const [oxxoReference, setOxxoReference] = useState(generateOxxoReference());
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -24,7 +25,10 @@ const PaymentSection = ({ selectedPlan, onBack, onPaymentComplete }) => {
   };
 
   const handleOxxoPayment = () => {
-    alert(`Referencia OXXO generada: ${oxxoReference}\n\nPor favor realiza el pago en cualquier tienda OXXO en un plazo de 24 horas.`);
+    // Regenerar referencia al procesar pago OXXO
+    const newReference = generateOxxoReference();
+    setOxxoReference(newReference);
+    alert(`Referencia OXXO generada: ${newReference}\n\nPor favor realiza el pago en cualquier tienda OXXO en un plazo de 24 horas.`);
     onPaymentComplete();
   };
 
