@@ -2,7 +2,7 @@
 .subscriptions-container {
   padding: 20px;
   max-width: 1200px;
-  margin: 2200px 0px 300px;
+  margin: 0 auto;
   background: #f8f9fa;
   min-height: 100vh;
 }
@@ -588,29 +588,28 @@
   font-size: 1rem;
 }
 
-.payment-methods {
-  display: flex;
-  gap: 15px;
-  margin-bottom: 25px;
-}
-
-.payment-method-btn {
-  flex: 1;
-  padding: 8px;
-  border: 2px solid #d1d5db;
+/* Método de pago único - Tarjeta */
+.payment-method-single {
   background: white;
-  border-radius: 10px 8px;
-  cursor: pointer;
-  font-weight: 600;
-  transition: all 0.3s ease;
+  padding: 20px;
+  border-radius: 8px;
+  border: 2px solid #e5e7eb;
+  margin-bottom: 25px;
   text-align: center;
-  color: #6b7280;
 }
 
-.payment-method-btn.active {
-  border-color: #6b7280;
-  background: #f3f4f6;
+.payment-method-info {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  font-weight: 600;
   color: #374151;
+  font-size: 1.1rem;
+}
+
+.payment-icon {
+  font-size: 1.5rem;
 }
 
 .payment-form {
@@ -673,47 +672,6 @@
 .pay-now-btn:hover {
   transform: translateY(-2px);
   box-shadow: 0 4px 12px rgba(107, 114, 128, 0.3);
-}
-
-.paypal-section {
-  text-align: center;
-  background: white;
-  padding: 25px;
-  border-radius: 12px;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
-}
-
-.paypal-section p {
-  margin-bottom: 20px;
-  color: #6b7280;
-  font-size: 0.95rem;
-}
-
-.paypal-btn {
-  width: 100%;
-  padding: 15px;
-  background: #6b7280;
-  color: white;
-  border: none;
-  border-radius: 8px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-}
-
-.paypal-btn:hover {
-  background: #4b5563;
-  transform: translateY(-2px);
-}
-
-.paypal-btn img {
-  width: 50px;
-  height: auto;
-  filter: grayscale(100%) brightness(200%);
 }
 
 .security-info {
@@ -806,129 +764,9 @@
     padding: 8px 20px;
     font-size: 0.9rem;
   }
-}
-
-
-
-
-
-
-
-
-
-
-
-
-/* OXXO Payment Styles */
-.oxxo-section {
-  text-align: center;
-  background: white;
-  padding: 25px;
-  border-radius: 12px;
-  box-shadow: 0 4px 15px rgba(202, 193, 193, 0.918);
-}
-
-.oxxo-instructions {
-  text-align: left;
-  margin-bottom: 25px;
-}
-
-.oxxo-instructions h4 {
-  color: #141316;
-  margin-bottom: 15px;
-  font-weight: 600;
-}
-
-.oxxo-instructions ol {
-  padding-left: 20px;
-  margin-bottom: 20px;
-}
-
-.oxxo-instructions li {
-  color: #17181b;
-  margin-bottom: 8px;
-  line-height: 1.5;
-}
-
-.oxxo-reference {
-  background: #7b808a;
-  padding: 15px;
-  border-radius: 8px;
-  margin: 15px 0;
-  text-align: center;
-  border: 2px dashed #eceff5;
-}
-
-.reference-label {
-  display: block;
-  color: #e6e8ec;
-  font-size: 0.9rem;
-  margin-bottom: 5px;
-}
-
-.reference-number {
-  display: block;
-  color: #b1b9c5;
-  font-size: 1.5rem;
-  font-weight: 700;
-  letter-spacing: 2px;
-}
-
-.oxxo-amount {
-  background: #f0f5ff;
-  padding: 12px;
-  border-radius: 8px;
-  margin: 15px 0;
-  text-align: center;
-  border: 2px solid #8f8ca1;
-}
-
-.amount-label {
-  display: block;
-  color: #2c2935;
-  font-size: 0.9rem;
-  margin-bottom: 5px;
-}
-
-.amount-number {
-  display: block;
-  color: #859994;
-  font-size: 1.3rem;
-  font-weight: 700;
-}
-
-.oxxo-note {
-  background: #fef3c7;
-  padding: 12px;
-  border-radius: 8px;
-  margin-top: 15px;
-  border-left: 4px solid #a09178;
-}
-
-.oxxo-note p {
-  color: #493c34;
-  margin: 0;
-  font-size: 0.9rem;
-  line-height: 1.4;
-}
-
-.oxxo-btn {
-  width: 100%;
-  padding: 16px;
-  background: linear-gradient(135deg, #e9e3e3, #ece9e9);
-  color: rgb(252, 251, 251);
-  border: none;
-  border-radius: 8px;
-  font-size: 1.1rem;
-  font-weight: 700;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  margin-top: 10px;
-}
-
-.oxxo-btn:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(255, 254, 254, 0.801);
+  
+  .payment-method-info {
+    flex-direction: column;
+    gap: 8px;
+  }
 }
