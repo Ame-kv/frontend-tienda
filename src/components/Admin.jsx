@@ -15,10 +15,7 @@ import {
   FiPackage,
   FiUserPlus,
   FiRefreshCw,
-  FiCheck,
-  FiZap,
-  FiAward,
-  FiCalendar
+  FiCreditCard
 } from "react-icons/fi";
 import {
   Chart as ChartJS,
@@ -47,7 +44,6 @@ ChartJS.register(
   Tooltip,
   Legend
 );
-
 
 const Admin = () => {
   const [activeView, setActiveView] = useState("dashboard");
@@ -365,7 +361,7 @@ const Admin = () => {
                 className={`cf-menu-item ${activeView === 'subscriptions' ? 'active' : ''}`}
                 onClick={() => handleMenuClick('subscriptions')}
               >
-                <FiDollarSign className="cf-menu-icon" />
+                <FiCreditCard className="cf-menu-icon" />
                 <span className="cf-menu-text">Suscripciones</span>
               </li>
             </ul>
@@ -395,7 +391,7 @@ const Admin = () => {
               {activeView === 'regular-tables' && 'Tablas'}
               {activeView === 'perfil' && 'Perfil'}
               {activeView === 'reports' && 'Reportes'}
-              {activeView === 'subscriptions' && 'Suscripciones'} {/* NUEVO */}
+              {activeView === 'subscriptions' && 'Paquetes y Planes'} {/* NUEVO */}
             </h2>
             <p className="cf-subtitle">
               {activeView === 'dashboard' && 'Resumen general del negocio'}
@@ -403,7 +399,7 @@ const Admin = () => {
               {activeView === 'regular-tables' && 'Tablas y datos detallados'}
               {activeView === 'perfil' && 'Configuración de tu perfil'}
               {activeView === 'reports' && 'Estadísticas y análisis detallados'}
-              {activeView === 'subscriptions' && 'Planes y paquetes de renta'} {/* NUEVO */}
+              {activeView === 'subscriptions' && 'Elige el plan perfecto para tu negocio'} {/* NUEVO */}
             </p>
           </div>
           
@@ -492,7 +488,7 @@ const Admin = () => {
 
         <div className="cf-content-wrapper">
           {activeView === 'dashboard' && (
-            <><br /> <br /> 
+            <><br /> <br /> <br /> <br /> <br /> <br /> <br />
               <div className="cf-stats-grid">
                 {Object.entries(stats).map(([key, stat]) => (
                   <div key={key} className="cf-stat-card">

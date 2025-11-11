@@ -4,7 +4,6 @@ import "../styles/subscriptions.css";
 
 // Componente de Pago
 const PaymentSection = ({ selectedPlan, onBack, onPaymentComplete }) => {
-  const [paymentMethod, setPaymentMethod] = useState("card");
   const [cardNumber, setCardNumber] = useState("");
   const [expiryDate, setExpiryDate] = useState("");
   const [cvv, setCvv] = useState("");
@@ -56,86 +55,66 @@ const PaymentSection = ({ selectedPlan, onBack, onPaymentComplete }) => {
 
         <div className="payment-form-section">
           <h3>Método de Pago</h3>
-          <div className="payment-methods">
-            <button
-              className={`payment-method-btn ${paymentMethod === "card" ? "active" : ""}`}
-              onClick={() => setPaymentMethod("card")}
-            >
-              💳 Tarjeta de Crédito/Débito
-            </button>
-            <button
-              className={`payment-method-btn ${paymentMethod === "paypal" ? "active" : ""}`}
-              onClick={() => setPaymentMethod("paypal")}
-            >
-              📱 PayPal
-            </button>
+          <div className="payment-method-single">
+            <div className="payment-method-info">
+              <span className="payment-icon">💳</span>
+              <span>Tarjeta de Crédito/Débito</span>
+            </div>
           </div>
 
-          {paymentMethod === "card" && (
-            <form className="payment-form" onSubmit={handleSubmit}>
-              <div className="form-group">
-                <label>Nombre en la Tarjeta</label>
-                <input
-                  type="text"
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                  placeholder="Juan Pérez"
-                  required
-                />
-              </div>
-
-              <div className="form-group">
-                <label>Número de Tarjeta</label>
-                <input
-                  type="text"
-                  value={cardNumber}
-                  onChange={(e) => setCardNumber(e.target.value)}
-                  placeholder="1234 5678 9012 3456"
-                  maxLength="19"
-                  required
-                />
-              </div>
-
-              <div className="form-row">
-                <div className="form-group">
-                  <label>Fecha de Expiración</label>
-                  <input
-                    type="text"
-                    value={expiryDate}
-                    onChange={(e) => setExpiryDate(e.target.value)}
-                    placeholder="MM/AA"
-                    maxLength="5"
-                    required
-                  />
-                </div>
-                <div className="form-group">
-                  <label>CVV</label>
-                  <input
-                    type="text"
-                    value={cvv}
-                    onChange={(e) => setCvv(e.target.value)}
-                    placeholder="123"
-                    maxLength="3"
-                    required
-                  />
-                </div>
-              </div>
-
-              <button type="submit" className="pay-now-btn">
-                PAGAR {selectedPlan.price}
-              </button>
-            </form>
-          )}
-
-          {paymentMethod === "paypal" && (
-            <div className="paypal-section">
-              <p>Serás redirigido a PayPal para completar tu pago.</p>
-              <button className="paypal-btn" onClick={handleSubmit}>
-                <img src="https://www.paypalobjects.com/webstatic/mktg/logo/pp_cc_mark_111x69.jpg" alt="PayPal" />
-                Pagar con PayPal
-              </button>
+          <form className="payment-form" onSubmit={handleSubmit}>
+            <div className="form-group">
+              <label>Nombre en la Tarjeta</label>
+              <input
+                type="text"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                placeholder="Juan Pérez"
+                required
+              />
             </div>
-          )}
+
+            <div className="form-group">
+              <label>Número de Tarjeta</label>
+              <input
+                type="text"
+                value={cardNumber}
+                onChange={(e) => setCardNumber(e.target.value)}
+                placeholder="1234 5678 9012 3456"
+                maxLength="19"
+                required
+              />
+            </div>
+
+            <div className="form-row">
+              <div className="form-group">
+                <label>Fecha de Expiración</label>
+                <input
+                  type="text"
+                  value={expiryDate}
+                  onChange={(e) => setExpiryDate(e.target.value)}
+                  placeholder="MM/AA"
+                  maxLength="5"
+                  required
+                />
+              </div>
+              <div className="form-group">
+                <label>CVV</label>
+                <input
+                  type="text"
+                  value={cvv}
+                  onChange={(e) => setCvv(e.target.value)}
+                  placeholder="123"
+                  maxLength="3"
+                  required
+                />
+              </div>
+            </div>
+
+            <button type="submit" className="pay-now-btn">
+              PAGAR {selectedPlan.price}
+            </button>
+          </form>
         </div>
       </div>
 
