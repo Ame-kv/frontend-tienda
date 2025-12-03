@@ -5,7 +5,9 @@ import { FaShoppingCart } from "react-icons/fa";
 import Carrito from "./Carrito";
 
 import { CarritoContext } from "../context/CarritoContext";
-import { AuthContext } from "../context/AuthContext";
+import { AuthContext } from "../context/AuthContext";  // ← Mantenemos tu auth
+
+import "../styles/Dashboard.css"; // ← Mantenemos también el CSS que estaba en main
 
 const Dashboard = () => {
   const [prendas, setPrendas] = useState([]);
@@ -39,42 +41,34 @@ const Dashboard = () => {
         PAGO CON STRIPE
   ================================= */
   const handleStripePayment = async () => {
-  try {
-    const response = await fetch(`${API_URL}/api/payments/create-checkout-session`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        items: cartItems.map(item => ({
-          nombre: item.nombre,
-          precio: item.precio,
-          cantidad: item.quantity,
-        })),
-      }),
-    });
+    try {
+      const response = await fetch(`${API_URL}/api/payments/create-checkout-session`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          items: cartItems.map((item) => ({
+            nombre: item.nombre,
+            precio: item.precio,
+            cantidad: item.quantity,
+          })),
+        }),
+      });
 
-    const data = await response.json();
+      const data = await response.json();
+      if (!data.url) return console.error("Stripe no devolvió URL:", data);
 
-    if (!data.url) {
-      console.error("Stripe no devolvió URL:", data);
-      return;
+      window.location.href = data.url;
+    } catch (error) {
+      console.error("Error Stripe:", error);
     }
-
-    window.location.href = data.url;
-
-  } catch (error) {
-    console.error("Error Stripe:", error);
-  }
-};
-
+  };
 
   return (
-    <div className="container-fluid"
+    <div
+      className="container-fluid"
       style={{ height: "100vh", display: "flex", flexDirection: "column" }}
     >
-
-      {/* ================================
-              HEADER
-      ================================= */}
+      {/* HEADER */}
       <header
         className="py-3 border-bottom d-flex justify-content-between align-items-center"
         style={{ flexShrink: 0, backgroundColor: "white", zIndex: 10 }}
@@ -97,7 +91,7 @@ const Dashboard = () => {
               fontSize: "24px",
               cursor: "pointer",
               background: "none",
-              border: "none"
+              border: "none",
             }}
           >
             <FaShoppingCart /> <span>({cartItems.length})</span>
@@ -105,9 +99,7 @@ const Dashboard = () => {
         </div>
       </header>
 
-      {/* ================================
-              CONTENIDO
-      ================================= */}
+      {/* CONTENIDO */}
       {mostrarCarrito ? (
         <Carrito
           cartItems={cartItems}
@@ -115,13 +107,9 @@ const Dashboard = () => {
           onBack={() => setMostrarCarrito(false)}
           onProceedToPago={handleStripePayment}
         />
-
       ) : (
-        <div
-          className="flex-grow-1 overflow-auto px-3"
-          style={{ paddingBottom: "30px" }}
-        >
-          {/* ===== GRID DE PRENDAS ===== */}
+        <div className="flex-grow-1 overflow-auto px-3" style={{ paddingBottom: "30px" }}>
+          {/* GRID DE PRENDAS */}
           <div className="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4 mt-2">
             {prendas.map((prenda, index) => (
               <div key={prenda._id + index} className="col">
@@ -148,14 +136,13 @@ const Dashboard = () => {
             ))}
           </div>
 
-          {/* ===== FOOTER ===== */}
+          {/* FOOTER */}
           <div
             className="text-center py-3"
             style={{ backgroundColor: "#f8f9fa", marginTop: "auto" }}
           >
             <p>
-              Contacto para vendedores:{" "}
-              <strong>amely@gmail.com</strong>
+              Contacto para vendedores: <strong>amely@gmail.com</strong>
             </p>
           </div>
         </div>
