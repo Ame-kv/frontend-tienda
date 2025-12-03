@@ -21,11 +21,21 @@ exports.obtenerPrendaPorId = async (req, res) => {
   }
 };
 
-// Crear nueva prenda
+// Crear nueva prenda (con imagen)
 exports.crearPrenda = async (req, res) => {
   try {
-    const nuevaPrenda = new Prenda(req.body);
+    // URL de la imagen subida
+    const imagenUrl = req.file
+      ? `${req.protocol}://${req.get("host")}/uploads/${req.file.filename}`
+      : null;
+
+    const nuevaPrenda = new Prenda({
+      ...req.body,
+      imagen: imagenUrl, // Guardar URL en Mongo
+    });
+
     const prendaGuardada = await nuevaPrenda.save();
+
     res.status(201).json(prendaGuardada);
   } catch (error) {
     res.status(400).json({ message: "Error al guardar prenda", error });

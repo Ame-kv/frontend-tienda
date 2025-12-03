@@ -1,202 +1,155 @@
-import React, { useContext, useState, useEffect } from "react";
-import "bootstrap/dist/css/bootstrap.min.css";
-import "../styles/Carrito.css";
-import { FaArrowLeft, FaTrash, FaPlus, FaMinus, FaLock } from "react-icons/fa";
-import { CarritoContext } from "../context/CarritoContext";
+// Carrito.jsx
+import React, { useState, useEffect } from "react";
 
-const Carrito = ({ onProceedToPago, onBack }) => {
-  const { cartItems, setCartItems, agregarAlCarrito } = useContext(CarritoContext);
+const Carrito = ({ cartItems, setCartItems, onBack, onProceedToPago }) => {
   const [selectedItems, setSelectedItems] = useState([]);
 
-  // Sincronizar cantidades locales
-  const [items, setItems] = useState([]);
+  const API_URL = import.meta.env.VITE_API_URL || "http://localhost:5000";
 
-  useEffect(() => {
-    setItems(cartItems.map(item => ({
+  /* =================================
+       NORMALIZAR ITEMS DEL CARRITO
+  ================================== */
+  const normalizeCartItems = (items) => {
+    return items.map((item) => ({
       ...item,
-      quantity: item.cantidad || 1,
-    })));
-  }, [cartItems]);
-
-  // Totales
-  const subtotal = items.reduce((sum, item) => sum + (item.precio * item.quantity), 0);
-  const shipping = 5.0;
-  const total = subtotal + shipping;
-  const missingForFreeShipping = Math.max(0, 6 - subtotal);
-
-  // Selección de items
-  const handleSelectAll = (e) => {
-    setSelectedItems(e.target.checked ? items.map(item => item.id) : []);
+      id: item.id || item._id,      // asegurar clave única
+      quantity: item.quantity || 1, // asegurar cantidad
+    }));
   };
 
-  const handleItemSelect = (itemId) => {
-    setSelectedItems(prev =>
+  useEffect(() => {
+    setCartItems((prev) => normalizeCartItems(prev));
+  }, []);
+
+  /* =================================
+          CALCULAR TOTAL
+  ================================== */
+  const calcularTotal = () =>
+    cartItems.reduce((total, item) => total + item.precio * item.quantity, 0);
+
+  /* =================================
+          SELECCIONAR ITEMS
+  ================================== */
+  const toggleItemSelection = (itemId) => {
+    setSelectedItems((prev) =>
       prev.includes(itemId)
-        ? prev.filter(id => id !== itemId)
+        ? prev.filter((id) => id !== itemId)
         : [...prev, itemId]
     );
   };
 
-  // Cambiar cantidad de producto y sincronizar con backend
-  const handleQuantityChange = async (item, change) => {
-    const nuevaCantidad = Math.max(1, item.quantity + change);
-    setItems(prev => prev.map(i =>
-      i.id === item.id ? { ...i, quantity: nuevaCantidad } : i
-    ));
-    // Actualizar en backend
-    await agregarAlCarrito(item.id, item.talla, nuevaCantidad);
-  };
-
-  // Eliminar un producto
-  const eliminarProducto = async (itemId) => {
-    try {
-      const API_URL = import.meta.env.VITE_API_URL || "http://localhost:5000";
-      const userId = "688b2cd326dcdb2466dc5c66"; // mismo que en contexto
-      const res = await fetch(`${API_URL}/api/carrito/${userId}/${itemId}`, {
-        method: "DELETE",
-      });
-      if (!res.ok) throw new Error("Error al eliminar producto");
-
-      const data = await res.json();
-      const nuevosItems = data.items
-        .filter(item => item.productoId)
-        .map(item => ({
-          id: item.productoId._id,
-          nombre: item.productoId.nombre,
-          precio: item.productoId.precio,
-          imagen: item.productoId.imagen,
-          talla: item.talla,
-          quantity: item.cantidad,
-        }));
-
-      setCartItems(nuevosItems);
-    } catch (err) {
-      console.error(err);
+  const toggleSelectAll = () => {
+    if (selectedItems.length === cartItems.length) {
+      setSelectedItems([]);
+    } else {
+      setSelectedItems(cartItems.map((item) => item.id));
     }
   };
 
-  // Eliminar seleccionados
-  const handleDeleteSelected = () => {
-    selectedItems.forEach(id => eliminarProducto(id));
+  /* =================================
+        ELIMINAR UN SOLO ITEM
+  ================================== */
+  const eliminarItem = async (itemId) => {
+    const item = cartItems.find((i) => i.id === itemId);
+    const userId = item?.userId;
+    if (!userId) return;
+
+    try {
+      await fetch(`${API_URL}/api/carrito/${userId}/eliminar/${itemId}`, {
+        method: "DELETE",
+      });
+      setCartItems((prev) => prev.filter((item) => item.id !== itemId));
+    } catch (err) {
+      console.error("Error al eliminar del carrito:", err);
+    }
+  };
+
+  /* =================================
+       ELIMINAR ITEMS SELECCIONADOS
+  ================================== */
+  const eliminarSeleccionados = async () => {
+    if (selectedItems.length === 0) return;
+
+    const promises = selectedItems.map((itemId) => eliminarItem(itemId));
+    await Promise.all(promises);
+
     setSelectedItems([]);
   };
 
+  /* =================================
+       RENDERIZAR ITEMS DEL CARRITO
+  ================================== */
   return (
-    <div className="carrito-container">
-      <div className="carrito-header">
-        <button className="btn-regresar-carrito" onClick={onBack}>
-          <FaArrowLeft /> Regresar a la tienda
-        </button>
-        <h2>Tu Carrito de Compras</h2>
-        <div className="carrito-counter">{items.length} artículos</div>
-      </div>
+    <div className="container mt-4">
+      <button className="btn btn-secondary mb-3" onClick={onBack}>
+        Volver
+      </button>
 
-      {items.length > 0 ? (
+      <h2 className="text-center mb-4">Tu Carrito</h2>
+
+      {cartItems.length === 0 ? (
+        <p className="text-center">El carrito está vacío.</p>
+      ) : (
         <>
-          <div className="carrito-acciones">
-            <label className="select-all">
-              <input
-                type="checkbox"
-                checked={selectedItems.length === items.length && items.length > 0}
-                onChange={handleSelectAll}
-              />
-              Seleccionar todos
-            </label>
+          <div className="text-end mb-2">
+            <button className="btn btn-outline-dark btn-sm" onClick={toggleSelectAll}>
+              Seleccionar Todo
+            </button>
             <button
-              className={`btn-borrar ${selectedItems.length === 0 ? 'disabled' : ''}`}
-              onClick={handleDeleteSelected}
+              className="btn btn-danger btn-sm ms-2"
+              onClick={eliminarSeleccionados}
               disabled={selectedItems.length === 0}
             >
-              <FaTrash /> Eliminar ({selectedItems.length})
+              Eliminar Seleccionados
             </button>
           </div>
 
-          <div className="carrito-list">
-            {items.map((item) => (
-              <div key={item.id} className="carrito-item">
-                <div className="carrito-item-checkbox">
+          <div className="list-group mb-4">
+            {cartItems.map((item) => (
+              <div
+                key={item.id}
+                className="list-group-item d-flex justify-content-between align-items-center"
+              >
+                <div className="d-flex align-items-center gap-3">
                   <input
                     type="checkbox"
                     checked={selectedItems.includes(item.id)}
-                    onChange={() => handleItemSelect(item.id)}
+                    onChange={() => toggleItemSelection(item.id)}
                   />
-                </div>
-                <img src={item.imagen} alt={item.nombre} className="carrito-item-image" />
-                <div className="carrito-item-details">
-                  <h3>{item.nombre}</h3>
-                  <p className="carrito-item-meta">
-                    <span>Talla: {item.talla}</span>
-                    <span className="divider">•</span>
-                    <span>Color: Negro</span>
-                  </p>
-                  <div className="quantity-selector">
-                    <button
-                      onClick={() => handleQuantityChange(item, -1)}
-                      disabled={item.quantity <= 1}
-                    >
-                      <FaMinus />
-                    </button>
-                    <span>{item.quantity}</span>
-                    <button onClick={() => handleQuantityChange(item, 1)}>
-                      <FaPlus />
-                    </button>
+                  <img
+                    src={item.imagen}
+                    alt={item.nombre}
+                    style={{ width: "60px", height: "60px", objectFit: "cover" }}
+                  />
+                  <div>
+                    <h5 className="mb-1">{item.nombre}</h5>
+                    <small>Talla: {item.talla || "Única"}</small>
+                    <br />
+                    <small>Cantidad: {item.quantity}</small>
                   </div>
                 </div>
-                <div className="carrito-item-price">
-                  ${(item.precio * item.quantity).toFixed(2)}
+
+                <div className="text-end">
+                  <p className="fw-bold mb-2">${item.precio}</p>
+                  <button
+                    className="btn btn-sm btn-danger"
+                    onClick={() => eliminarItem(item.id)}
+                  >
+                    Eliminar
+                  </button>
                 </div>
-                <button
-                  className="btn btn-danger btn-sm"
-                  style={{ marginLeft: '10px' }}
-                  onClick={() => eliminarProducto(item.id)}
-                >
-                  <FaTrash /> Eliminar
-                </button>
               </div>
             ))}
           </div>
 
-          <div className="carrito-resumen">
-            <h3>Resumen de compra</h3>
-            <div className="resumen-detalle">
-              <div className="resumen-row">
-                <span>Subtotal ({items.length} artículos)</span>
-                <span>${subtotal.toFixed(2)}</span>
-              </div>
-              <div className="resumen-row">
-                <span>Envío</span>
-                <span>${shipping.toFixed(2)}</span>
-              </div>
-              {missingForFreeShipping > 0 && (
-                <div className="shipping-promo">
-                  <span>¡Faltan ${missingForFreeShipping.toFixed(2)} para envío gratis!</span>
-                </div>
-              )}
-              <div className="resumen-total">
-                <span>Total</span>
-                <span>${total.toFixed(2)}</span>
-              </div>
-            </div>
-            <button className="btn-proceder-pago" onClick={onProceedToPago}>
-              <FaLock /> Proceder al pago
-            </button>
-            <p className="secure-checkout">
-              <FaLock /> Pago seguro cifrado SSL
-            </p>
-            <button className="btn-seguir-comprando-carrito" onClick={onBack}>
-              Seguir comprando
+          <h4 className="text-end mb-3">Total: ${calcularTotal()}</h4>
+
+          <div className="text-end">
+            <button className="btn btn-success" onClick={onProceedToPago}>
+              Proceder al Pago
             </button>
           </div>
         </>
-      ) : (
-        <div className="carrito-vacio">
-          <img src="/imagenes/102661.png" alt="Carrito vacío" />
-          <h3>Tu carrito está vacío</h3>
-          <p>Parece que no has agregado ningún producto aún</p>
-          <button className="btn-seguir-comprando" onClick={onBack}>
-            Seguir comprando
-          </button>
-        </div>
       )}
     </div>
   );

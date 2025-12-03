@@ -1,6 +1,10 @@
 import React, { useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../styles/Pago.css";
+import { loadStripe } from "@stripe/stripe-js";
+const stripePromise = loadStripe("TU_PUBLISHABLE_KEY_DE_STRIPE");
+
+
 
 const Pago = ({ cartItems, onBack }) => {
   const [formData, setFormData] = useState({

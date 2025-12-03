@@ -4,98 +4,76 @@ export const CarritoContext = createContext();
 
 export const CarritoProvider = ({ children }) => {
   const [cartItems, setCartItems] = useState([]);
-
   const API_URL = import.meta.env.VITE_API_URL || "http://localhost:5000";
-  const userId = "688b2cd326dcdb2466dc5c66"; // Reemplaza por el ID real del usuario logueado
 
-  // Cargar carrito desde backend al montar
-  useEffect(() => {
-    const cargarCarrito = async () => {
-      try {
-        const res = await fetch(`${API_URL}/api/carrito/${userId}`);
-        if (!res.ok) throw new Error("Error al obtener carrito");
-        const data = await res.json();
+  const getUserId = () => localStorage.getItem("userId") || "688b2cd326dcdb2466dc5c66";
 
-        // Mapear items para que tengan la propiedad 'quantity'
-        const itemsMapeados = data.items.map(item => ({
-          ...item,
-          quantity: item.cantidad || 1
-        }));
-
-        setCartItems(itemsMapeados);
-      } catch (err) {
-        console.error("Error al cargar carrito:", err);
-      }
-    };
-
-    cargarCarrito();
-  }, [API_URL, userId]);
-
-  // Función para agregar o actualizar producto en el carrito
-  const agregarAlCarrito = async (productoId, talla, cantidad) => {
-    try {
-      const res = await fetch(`${API_URL}/api/carrito/${userId}/agregar`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ productoId, talla, cantidad }),
+  // Normaliza los items que vienen del backend
+  const normalizeResponseItems = (items = []) =>
+    items
+      .filter(item => item.producto)
+      .map(item => {
+        const prod = item.producto;
+        return {
+          id: prod._id,
+          nombre: prod.nombre,
+          precio: prod.precio,
+          imagen: prod.imagen,
+          talla: item.talla,
+          quantity: item.cantidad,
+        };
       });
 
+  // Cargar carrito al entrar
+  const fetchCart = async () => {
+    try {
+      const userId = getUserId();
+      const res = await fetch(`${API_URL}/api/carrito/${userId}`);
+
+      if (!res.ok) return;
+
       const data = await res.json();
-
-      if (res.ok) {
-        // Mapear items para mantener quantity
-        const itemsMapeados = data.items.map(item => ({
-          id: item.productoId._id,
-          nombre: item.productoId.nombre,
-          precio: item.productoId.precio,
-          imagen: item.productoId.imagen,
-          talla: item.talla,
-          quantity: item.cantidad
-        }));
-
-        setCartItems(itemsMapeados);
-        return { success: true };
-      } else {
-        return { success: false, message: data.error || "Error desconocido" };
-      }
+      setCartItems(normalizeResponseItems(data.items));
     } catch (err) {
-      console.error("Error al agregar al carrito:", err);
-      return { success: false, message: "Error de red" };
+      console.error("Error fetching cart:", err);
     }
   };
 
-  // Función para eliminar un producto del carrito
-  const eliminarDelCarrito = async (productoId) => {
+  useEffect(() => {
+    fetchCart();
+  }, []);
+
+  //  AGREGAR AL CARRITO (CORRECTO)
+  const agregarAlCarrito = async (productoId, talla = "S", cantidad = 1) => {
     try {
-      const res = await fetch(`${API_URL}/api/carrito/${userId}/${productoId}`, {
-        method: "DELETE",
+      const userId = getUserId();
+      const payload = { productoId, talla, cantidad };
+
+      const res = await fetch(`${API_URL}/api/carrito/${userId}/agregar`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
       });
 
-      const data = await res.json();
-
-      if (res.ok) {
-        const itemsMapeados = data.items.map(item => ({
-          id: item.productoId._id,
-          nombre: item.productoId.nombre,
-          precio: item.productoId.precio,
-          imagen: item.productoId.imagen,
-          talla: item.talla,
-          quantity: item.cantidad
-        }));
-
-        setCartItems(itemsMapeados);
-        return { success: true };
-      } else {
-        return { success: false, message: data.error || "Error desconocido" };
+      if (!res.ok) {
+        const text = await res.text();
+        throw new Error(`Error agregando al carrito: ${text}`);
       }
+
+      const data = await res.json();
+      const nuevosItems = normalizeResponseItems(data.items);
+      setCartItems(nuevosItems);
+
+      return nuevosItems;
+
     } catch (err) {
-      console.error("Error al eliminar producto:", err);
-      return { success: false, message: "Error de red" };
+      console.error("Error agregando al carrito:", err);
+      throw err;
     }
   };
 
   return (
-    <CarritoContext.Provider value={{ cartItems, setCartItems, agregarAlCarrito, eliminarDelCarrito }}>
+    <CarritoContext.Provider value={{ cartItems, setCartItems, agregarAlCarrito, fetchCart }}>
       {children}
     </CarritoContext.Provider>
   );

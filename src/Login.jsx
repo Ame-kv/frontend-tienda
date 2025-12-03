@@ -1,13 +1,17 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
+import { AuthContext } from "./context/AuthContext";
 import "./style.css";
 import logo from "./assets/logo.jpeg";
 
 function Login() {
   const navigate = useNavigate();
-  const [usuario, setUsuario] = useState(""); // Esto es el correo
+  const { login } = useContext(AuthContext);
+
+  const [usuario, setUsuario] = useState("");
   const [contrasena, setContrasena] = useState("");
   const [error, setError] = useState("");
+  
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -31,18 +35,13 @@ function Login() {
         return;
       }
 
-      // Guardar datos de usuario (opcional)
-      localStorage.setItem("usuario", JSON.stringify(data));
-      
-      // Redirigir al dashboard
+      // ← Aquí guardamos el usuario correctamente
+      login(data);
+
       navigate("/dashboard");
     } catch (err) {
       setError("Error de red o del servidor");
     }
-  };
-
-  const handleRegistro = () => {
-    navigate("/registro");
   };
 
   return (
@@ -71,7 +70,7 @@ function Login() {
         <button type="submit">Iniciar Sesión</button>
       </form>
       {error && <p className="error-message">{error}</p>}
-      <button onClick={handleRegistro}>Ir a Registro</button>
+      <button onClick={() => navigate("/registro")}>Ir a Registro</button>
     </div>
   );
 }

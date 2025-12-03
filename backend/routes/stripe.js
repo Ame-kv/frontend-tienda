@@ -1,0 +1,37 @@
+const express = require("express");
+const Stripe = require("stripe");
+
+const router = express.Router();
+
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
+
+// Crear sesión de pago
+router.post("/crear-sesion", async (req, res) => {
+  try {
+    const items = req.body.items;
+
+    const line_items = items.map((item) => ({
+      price_data: {
+        currency: "mxn",
+        product_data: { name: item.nombre },
+        unit_amount: item.precio * 100,
+      },
+      quantity: item.cantidad,
+    }));
+
+    const session = await stripe.checkout.sessions.create({
+      payment_method_types: ["card"],
+      mode: "payment",
+      line_items,
+      success_url: `${process.env.FRONTEND_URL}/success`,
+      cancel_url: `${process.env.FRONTEND_URL}/cancel`,
+    });
+
+    res.json({ url: session.url });
+  } catch (error) {
+    console.error("Error Stripe:", error);
+    res.status(500).json({ error: "Error al crear sesión de pago" });
+  }
+});
+
+module.exports = router;

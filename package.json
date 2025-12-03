@@ -25,6 +25,9 @@
   "homepage": "https://github.com/Ame-kv/frontend-tienda#readme",
   "dependencies": {
     "@popperjs/core": "^2.11.8",
+    "@stripe/react-stripe-js": "^5.4.1",
+    "@stripe/stripe-js": "^8.5.3",
+    "@superset-ui/embedded-sdk": "^0.3.0",
     "bootstrap": "^5.3.3",
     "chart.js": "^4.4.8",
     "cors": "^2.8.5",

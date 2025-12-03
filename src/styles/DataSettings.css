@@ -458,3 +458,27 @@
   font-weight: 600;
   font-size: 0.75rem;
 }
+
+/* ==== Ajuste de tamaño para imágenes en product-card ===== */
+
+.product-card img {
+  width: 120px;          /* tamaño máximo */
+  height: auto;
+  object-fit: contain;   /* evita deformación */
+  border-radius: 6px;
+  display: block;
+  margin: 0 auto 10px;   /* centra y separa la imagen */
+}
+
+/* Responsivo */
+@media (max-width: 768px) {
+  .product-card img {
+    width: 100px;
+  }
+}
+
+@media (max-width: 480px) {
+  .product-card img {
+    width: 80px;
+  }
+}
